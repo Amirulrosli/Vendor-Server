@@ -1,6 +1,6 @@
 const db = require("../models");
-const tutorialModel = require("../models/tutorial.model");
-const Profile = db.tutorials;
+const tutorialModel = require("../models/Payment.model");
+const Payment = db.payments;
 const Op = db.sequelize.Op;
 
 exports.create = (req, res) => {
@@ -12,18 +12,16 @@ exports.create = (req, res) => {
         return;
     }
 
-    const profile = {
+    const payment = {
         id: req.body.id,
         rid: req.body.rid,
-        name: req.body.name,
-        IC_Number: req.body.IC_Number,
+        payment_Date: req.body.payment_Date, 
+        due_Date: req.body.due_Date,
         email: req.body.email,
-        latest_Payment: req.body.latest_Payment,
-        latest_Payment_Date: req.body.latest_Payment_Date,
-        overdue: req.body.overdue
+        send_Email: req.body.send_Email
     };
 
-    Profile.create(profile).then(data=> {
+    Payment.create(payment).then(data=> {
         res.send(data);
     }).catch (error=> {
         res.status(500).send({
@@ -35,10 +33,10 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req,res)=> {
-    const IC_Number = req.query.IC_Number;
-    var condition = IC_Number ? { IC_Number: {[Op.like]: `%${IC_Number}%`}}: null;
+    const rid = req.query.rid;
+    var condition = rid ? { rid: {[Op.like]: `%${rid}%`}}: null;
 
-    Profile.findAll({ where: condition }).then(data=> {
+    Payment.findAll({ where: condition }).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
@@ -51,9 +49,9 @@ exports.findAll = (req,res)=> {
 
 exports.findOne = (req,res)=> {
 
-    const id = req.params.id;
+    const rid = req.params.rid;
 
-    profile.findByPk(id).then(data=> {
+    Payment.findByPk(rid).then(data=> {
         res.send(data);
     })
     .catch(err=> {
@@ -68,21 +66,21 @@ exports.update = (req,res)=> {
 
     const id = req.params.id;
     
-    Profile.update(req.body, {
+    Payment.update(req.body, {
         where: {id:id}
     }).then(result => {
         if (result == 1) {
             res.send({ 
-                message: "Profile was updated successfully"
+                message: "Payment was updated successfully"
             })
         } else {
             res.send( {
-                message:`Cannot update profile with id=${id}.No Result Found`
+                message:`Cannot update payment with id=${id}.No Result Found`
             })
         }
     }).catch (error => {
         res.status(500).send({
-            message: "error when updating profile"
+            message: "error when updating Payment"
         })
     })
 
@@ -93,22 +91,22 @@ exports.delete = (req,res)=> {
 
     const id = req.params.id;
 
-    Profile.destroy({
+    Payment.destroy({
         where: {id:id}
     })
     .then(result=> {
         if (result == 1){
             res.send({
-                message: "Profile has deleted successfully"
+                message: "Payment has deleted successfully"
             })
         } else {
             res.send({
-                message:"Profile Cannot be deleted. Empty or no result found"
+                message:"Payment Cannot be deleted. Empty or no result found"
             })
         }
     }).catch (error=> {
         res.status(500).send({
-            message: "Error, could not delete profile"
+            message: "Error, could not delete payment"
         })
     })
 
@@ -116,21 +114,21 @@ exports.delete = (req,res)=> {
 
 exports.deleteAll= (req,res)=> {
 
-    Profile.destroy( {
+    Payment.destroy( {
         where: {},
         truncate: false
     }).then(result=> {
         res.send({
-            message: `Profile were deleted successfully! ${result}`
+            message: `Payment were deleted successfully! ${result}`
         }).catch(error=> {
-            message: error.message || "Error during deleting the profile"
+            message: error.message || "Error during deleting Payment"
         })
     })
 
 };
 
-exports.findAlloverdue = (req,res)=> {
-    Profile.findAll({where: {overdue: true}}).then (data=> {
+exports.findAllsend = (req,res)=> {
+    Payment.findAll({where: {sendEmail: false}}).then (data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

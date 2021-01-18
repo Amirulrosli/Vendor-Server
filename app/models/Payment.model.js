@@ -1,8 +1,7 @@
 module.exports = (sequelize,Sequelize) => {
     const Payment = sequelize.define("payments", {
-        id: {
-            type: Sequelize.DOUBLE,
-            primaryKey: true
+        rid: {
+            type: Sequelize.STRING
         },
         payment_Date: {
             type: Sequelize.DATE

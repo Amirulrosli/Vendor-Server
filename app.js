@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 
 
 const api = require("./app/routes/tutorial.routes")(app);
+const payment = require("./app/routes/payment.routes")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -43,6 +44,8 @@ app.listen(PORT, () => {
 });
 
 const db = require("./app/models");
+
+
 db.sequelize.sync({force: true}).then(()=> {
     console.log("Drop table and resync")
 });

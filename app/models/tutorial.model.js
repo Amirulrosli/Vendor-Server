@@ -1,10 +1,9 @@
 module.exports = (sequelize,Sequelize) => {
-    const Tutorial = sequelize.define("profile", {
-        id: {
-            type: Sequelize.DOUBLE,
-            primaryKey: true
-        },
+    const Tutorial = sequelize.define("profiles", {
         name: {
+            type: Sequelize.STRING
+        },
+        rid: {
             type: Sequelize.STRING
         },
         IC_Number: {
