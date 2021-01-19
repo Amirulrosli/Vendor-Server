@@ -34,7 +34,8 @@ exports.create = (req, res) => {
         overdue: req.body.overdue,
         slot: req.body.slot,
         slot_Price: req.body.slot_Price,
-        phone: req.body.phone
+        phone: req.body.phone,
+        rent_Date: req.body.rent_Date
 
     };
 

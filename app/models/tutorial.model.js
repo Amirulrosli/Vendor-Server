@@ -26,6 +26,9 @@ module.exports = (sequelize,Sequelize) => {
         latest_Payment_Date: {
             type: Sequelize.DATE
         },
+        rent_Date: {
+            type: Sequelize.STRING
+        },
         latest_Payment: {
             type: Sequelize.DOUBLE
         },
