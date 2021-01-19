@@ -22,9 +22,9 @@ db.sequelize = sequelize;
 db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.payments = require("./Payment.model")(sequelize,Sequelize);
 
-db.tutorials.hasMany(db.payments, { as: "payments "});
-db.payments.belongsTo(db.tutorials, {
-  foreignKey: "tutorialID", 
-  as: "tutorial",
-});
+// db.tutorials.hasMany(db.payments, { as: "payments "});
+// db.payments.belongsTo(db.tutorials, {
+//   foreignKey: "tutorialID", 
+//   as: "tutorial",
+// });
 module.exports = db;

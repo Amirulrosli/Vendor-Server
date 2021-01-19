@@ -12,6 +12,8 @@ exports.create = (req, res) => {
         return;
     }
 
+
+
     const payment = {
         id: req.body.id,
         rid: req.body.rid,

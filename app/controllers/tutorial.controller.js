@@ -3,6 +3,9 @@ const tutorialModel = require("../models/tutorial.model");
 const Profile = db.tutorials;
 const Op = db.sequelize.Op;
 
+
+
+
 exports.create = (req, res) => {
     
     if (!req.body.name){
@@ -12,16 +15,30 @@ exports.create = (req, res) => {
         return;
     }
 
+    date_Now = new Date();
+    let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
+
+    var rid = "V_01"+req.body.slot+today+"0000"+req.body.IC_Number;
+
+    
+
+
     const profile = {
         id: req.body.id,
-        rid: req.body.rid,
+        rid: rid,
         name: req.body.name,
         IC_Number: req.body.IC_Number,
         email: req.body.email,
         latest_Payment: req.body.latest_Payment,
         latest_Payment_Date: req.body.latest_Payment_Date,
-        overdue: req.body.overdue
+        overdue: req.body.overdue,
+        slot: req.body.slot,
+        slot_Price: req.body.slot_Price,
+        phone: req.body.phone
+
     };
+
+
 
     Profile.create(profile).then(data=> {
         res.send(data);
