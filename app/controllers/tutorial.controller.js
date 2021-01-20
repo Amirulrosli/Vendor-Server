@@ -71,7 +71,7 @@ exports.findOne = (req,res)=> {
 
     const id = req.params.id;
 
-    profile.findByPk(id).then(data=> {
+    Profile.findByPk(id).then(data=> {
         res.send(data);
     })
     .catch(err=> {

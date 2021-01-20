@@ -12,7 +12,7 @@ module.exports = (sequelize,Sequelize) => {
             type: Sequelize.STRING,
         },
         IC_Number: {
-            type: Sequelize.INTEGER
+            type: Sequelize.STRING
         },
         email: {
             type: Sequelize.STRING
