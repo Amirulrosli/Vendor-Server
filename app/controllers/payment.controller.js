@@ -5,12 +5,12 @@ const Op = db.sequelize.Op;
 
 exports.create = (req, res) => {
     
-    if (!req.body.name){
-        res.status(400).send({
-            message: "Error, Content cannot be empty"
-        });
-        return;
-    }
+    // if (!req.body.name){
+    //     res.status(400).send({
+    //         message: "Error, Content cannot be empty"
+    //     });
+    //     return;
+    // }
 
 
 
