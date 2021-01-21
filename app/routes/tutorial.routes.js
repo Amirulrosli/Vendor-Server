@@ -9,6 +9,7 @@ module.exports = app => {
     router.put("/:id",tcontroller.update)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
+    router.get("/IC/:IC_Number", tcontroller.findAllbyIC)
     
     app.use('/api/profiles', router)
 

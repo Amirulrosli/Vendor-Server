@@ -1,3 +1,4 @@
+
 const db = require("../models");
 const tutorialModel = require("../models/tutorial.model");
 const Profile = db.tutorials;
@@ -60,7 +61,7 @@ exports.findAll = (req,res)=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
-            message: err.message
+            message: "Error bro"
         });
     });
 
@@ -158,3 +159,15 @@ exports.findAlloverdue = (req,res)=> {
     });
 
 };
+
+
+exports.findAllbyIC = (req,res)=> {
+    const IC_Number = req.params.IC_Number;
+    Profile.findAll({where: {IC_Number: `${IC_Number}`}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message:err.message
+        })
+    })
+}
