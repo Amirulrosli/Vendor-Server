@@ -9,6 +9,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+var sql = require('mssql')
+var nodemailer = require('nodemailer')
+
+
 
 const app = express();
 
@@ -44,8 +48,43 @@ app.listen(PORT, () => {
 });
 
 const db = require("./app/models");
-
+const Op = db.Sequelize.Op;
+const Payment = db.payments;
 
 db.sequelize.sync({force: false}).then(()=> {
     console.log("Drop table and resync")
 });
+
+
+
+
+const date = new Date();
+Payment.findAll({where: {due_Date: date}}).then(data=> {
+    console.log(data)
+}).catch(function(error){
+    console.log(error)
+})
+
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user:'meerros810@gmail.com',
+    pass: 'lymuafvzvxrqyfgj'
+  }
+});
+
+var mailOptions = {
+  from: 'meerros810@gmail.com',
+  to:'meerros1303@gmail.com',
+  subject: 'Sending email using node js',
+  text: 'That was easy as  s'
+}
+
+transporter.sendMail(mailOptions, function(error,info){
+  if (error){
+    console.log(error)
+  } else {
+    console.log('Email sent:'+info.response)
+  }
+})

@@ -20,7 +20,8 @@ exports.create = (req, res) => {
         payment_Date: req.body.payment_Date, 
         due_Date: req.body.due_Date,
         email: req.body.email,
-        send_Email: req.body.send_Email
+        send_Email: req.body.send_Email,
+        price: req.body.price
     };
 
     Payment.create(payment).then(data=> {

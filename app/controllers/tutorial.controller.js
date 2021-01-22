@@ -2,7 +2,7 @@
 const db = require("../models");
 const tutorialModel = require("../models/tutorial.model");
 const Profile = db.tutorials;
-const Op = db.sequelize.Op;
+const Op = db.Sequelize.Op;
 
 
 
@@ -162,8 +162,10 @@ exports.findAlloverdue = (req,res)=> {
 
 
 exports.findAllbyIC = (req,res)=> {
+
     const IC_Number = req.params.IC_Number;
-    Profile.findAll({where: {IC_Number: `${IC_Number}`}}).then(data=> {
+    var condition = IC_Number ? { IC_Number: {[Op.like]: `%${IC_Number}`}}: null;
+    Profile.findAll({where: condition}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
