@@ -10,6 +10,7 @@ module.exports = app => {
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.get("/IC/:IC_Number", tcontroller.findAllbyIC)
+    router.get("/rid/:rid",tcontroller.findAllbyRID)
     
     app.use('/api/profiles', router)
 

@@ -53,17 +53,36 @@ const Payment = db.payments;
 
 db.sequelize.sync({force: false}).then(()=> {
     console.log("Drop table and resync")
+
+    const date = new Date();
+
+    Payment.findAll().then(data=> {
+      var paymentData = data;
+
+    for(let i = 0; i<paymentData.length; i++ ){
+
+      var due_Date = paymentData.dataValue[i].due_Date;
+
+      console.log(due_Date)
+      Payment.findAll({where: due_Date <= date}).then(data=> {
+        console.log(data)
+      }).catch(function(error){
+        console.log(error)
+      });
+
+    }
+
+
+
+    });
+
+
 });
 
 
 
 
-const date = new Date();
-Payment.findAll({where: {due_Date: date}}).then(data=> {
-    console.log(data)
-}).catch(function(error){
-    console.log(error)
-})
+
 
 
 var transporter = nodemailer.createTransport({

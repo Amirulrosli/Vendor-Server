@@ -9,6 +9,7 @@ module.exports = app => {
     router.put("/:id",tcontroller.update)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
+    router.get("/rid/:rid",tcontroller.findAllbyRID)
     
     app.use('/api/payments', router)
 
