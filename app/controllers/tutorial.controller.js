@@ -31,12 +31,14 @@ exports.create = (req, res) => {
         IC_Number: req.body.IC_Number,
         email: req.body.email,
         latest_Payment: req.body.latest_Payment,
-        latest_Payment_Date: req.body.latest_Payment_Date,
+        latest_Payment_Date: req.body.Payment_Date,
+        latest_Due_Date: req.body.Due_Date,
         overdue: req.body.overdue,
         slot: req.body.slot,
-        slot_Price: req.body.slot_Price,
+        slot_Price: req.body.price,
         phone: req.body.phone,
         rent_Date: req.body.rent_Date
+
 
     };
 
