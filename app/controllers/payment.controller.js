@@ -1,7 +1,7 @@
 const db = require("../models");
 const tutorialModel = require("../models/Payment.model");
 const Payment = db.payments;
-const Op = db.sequelize.Op;
+const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     
