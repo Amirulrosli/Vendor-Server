@@ -53,7 +53,7 @@ const Payment = db.payments;
 const Profile = db.tutorials;
 
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
     console.log("Drop table and resync")
 
     // const date = new Date();

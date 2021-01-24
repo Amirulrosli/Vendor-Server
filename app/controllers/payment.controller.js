@@ -148,7 +148,7 @@ exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
     var condition = rid ? { rid: {[Op.like]: `%${rid}`}}: null;
-    Profile.findAll({where: condition}).then(data=> {
+    Payment.findAll({where: condition}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
