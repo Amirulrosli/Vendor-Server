@@ -20,10 +20,10 @@ module.exports = (sequelize,Sequelize) => {
         slot: {
             type: Sequelize.STRING
         },
-        price: {
+        slot_Price: {
             type: Sequelize.DOUBLE
         },
-        Payment_Date: {
+        latest_Payment_Date: {
             type: Sequelize.DATE
         },
         Due_Date: {
