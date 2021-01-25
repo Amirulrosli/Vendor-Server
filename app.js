@@ -9,6 +9,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const webpush = require('web-push')
 var sql = require('mssql')
 var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
@@ -16,6 +17,7 @@ var schedule = require('node-schedule');
 
 const app = express();
 
+//cors
 var corsOptions = {
   origin: "http://localhost:4200"
 };
@@ -23,22 +25,16 @@ var corsOptions = {
 var tutorialApi = require("./app/routes/tutorial.routes");
 
 app.use(cors(corsOptions));
-
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Server Works like a charm." });
 });
 
 // set port, listen for requests
-
-
-
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 
@@ -53,100 +49,52 @@ const Payment = db.payments;
 const Profile = db.tutorials;
 
 
-db.sequelize.sync({force: true}).then(()=> {
+db.sequelize.sync({force: false}).then(()=> {
     console.log("Drop table and resync")
-
-    // const date = new Date();
-    // const day = date.getDate();
-    // const month = date.getMonth();
-    // const year = date.getFullYear();
-
-    // arrayPayment = [];
-
-    // Payment.findAll().then(data=> {
-    //   var paymentData = data;
-    //   console.log(paymentData[1].dataValues.due_Date)
-
-    //   return new Promise (async (resolve)=> {
-
-    //     for(let i = 0; i<paymentData.length; i++ ){
-
-    //       var due_Date = paymentData[i].dataValues.due_Date;
-    //       console.log(due_Date.getDate())
-    //       var due_DateDay = due_Date.getDate();
-    //       var due_DateMonth = due_Date.getMonth();
-    //       var due_DateYear = due_Date.getFullYear();
-
-    //         if (due_DateMonth <= month){
-    //           if(due_DateYear <= year){
-    //             arrayPayment.push(paymentData[i].dataValues)
-    //             console.log(arrayPayment)
-    //             return true;
-    //           }
-    //       } 
-          
-
-    //       // if (due_Date < date && due_Date== date){
-    //       //   arrayPayment.push(paymentData[i].dataValues)
-    //       //   console.log(paymentData[i].dataValues)
-    //       // } 
-    
-    //       // console.log(due_Date)
-    //       // Payment.findAll({where: due_Date <= date}).then(data=> {
-          
-    //       // }).catch(function(error){
-    //       //   console.log(error)
-    //       // });
-    
-    //     }
-
-    //   })
-
-   
-
-
-
-    // });
-
 
 });
 
 const date = new Date();
 const day = date.getDate();
-const month = date.getMonth();
+const month = date.getMonth()+1;
 const year = date.getFullYear();
 
 console.log(date)
 
 arrayPayment = [];
 
-schedule.scheduleJob({hour: 00, minute: 00}, function(){
+// schedule.scheduleJob({hour: 00, minute: 00}, function(){
+schedule.scheduleJob('*/5 * * * *',function(){
   console.log("Server will execute gmail every 12:00")
 
-  Payment.findAll().then(data=> {
-    var paymentData = data;
-    console.log(paymentData[1].dataValues.due_Date)
+  Profile.findAll().then(data=> {
+    var profileData = data;
+
   
     return new Promise (async (resolve)=> {
   
-      for(let i = 0; i<paymentData.length; i++ ){
+      for(let i = 0; i<profileData.length; i++ ){
   
-        var due_Date = paymentData[i].dataValues.due_Date;
+        var due_Date = profileData[i].dataValues.latest_Due_Date;
+        if (due_Date == null){
+          return false;
+        }
+        console.log(due_Date)
         console.log(due_Date.getDate())
         var due_DateDay = due_Date.getDate();
-        var due_DateMonth = due_Date.getMonth();
+        var due_DateMonth = due_Date.getMonth()+1;
         var due_DateYear = due_Date.getFullYear();
   
         if (due_DateDay <= day){
           if (due_DateMonth <= month){
             if(due_DateYear <= year){
-              arrayPayment.push(paymentData[i].dataValues)
-              console.log(arrayPayment)
+              arrayPayment.push(profileData[i].dataValues)
+     
             }
         } else if (due_DateMonth <= month) {
           if(due_DateYear <= year){
-            arrayPayment.push(paymentData[i].dataValues)
-            console.log(arrayPayment)
+            arrayPayment.push(profileData[i].dataValues)
+        
           }
         }
   
@@ -159,12 +107,16 @@ schedule.scheduleJob({hour: 00, minute: 00}, function(){
           for(let i = 0; i < arrayPayment.length; i++){
   
             var rid = arrayPayment[i].rid;
-            var condition = rid ? { rid: {[Op.like]: `%${rid}`}}: null;
-            Profile.findAll({where: condition}).then(data=> {
-                var email = data[0].dataValues.email;
-                var slot = data[0].dataValues.slot;
-                var slot_Price = data[0].dataValues.slot_Price;
-    
+            var email = arrayPayment[i].email;
+            var slot = arrayPayment[i].slot;
+            var slot_Price = arrayPayment[i].slot_Price;
+            var latest_Due_Date = arrayPayment[i].latest_Due_Date;
+
+            Payment.findAll({where: {rid: rid, due_Date: latest_Due_Date}}).then(data=> {
+              var payment = data;
+
+              if (payment[0].dataValues.send_Email == true){
+
                 console.log(email)
       
                 var transporter = nodemailer.createTransport({
@@ -186,15 +138,39 @@ schedule.scheduleJob({hour: 00, minute: 00}, function(){
                   if (error){
                     console.log(error)
                   } else {
+                    payment[0].dataValues.send_Email = true;
+                    var id = payment[0].dataValues.id;
+                    console.log(payment)
+
+                    var updatedPayment = {
+                      id: payment[0].dataValues.id,
+                      rid: payment[0].dataValues.rid,
+                      payment_Date: payment[0].dataValues.payment_Date,
+                      due_Date: payment[0].dataValues.due_Date,
+                      price: payment[0].dataValues.price,
+                      email: payment[0].dataValues.email,
+                      send_Email: payment[0].dataValues.send_Email,
+                    }
+                    Payment.update(updatedPayment,{where: {id:id}}).then(result => {
+                      console.log(result)
+                      if (result == 1){
+                        console.log("Successfully updated id:"+id)
+                      } else {
+                        console.log("Cannot Update id:"+id)
+                      }
+                    })
                     console.log('Email sent:'+info.response)
                   }
                 })
-      
-            }).catch(err=> {
-                console.log(err.message)
+
+              } else {
+                return;
+              }
+             
             })
+    
+               
       
-            
           }
     
   
