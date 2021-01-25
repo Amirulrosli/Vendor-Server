@@ -32,7 +32,7 @@ exports.create = (req, res) => {
         email: req.body.email,
         latest_Payment: req.body.latest_Payment,
         latest_Payment_Date: req.body.latest_Payment_Date,
-        latest_Due_Date: req.body.Due_Date,
+        latest_Due_Date: req.body.latest_Due_Date,
         overdue: req.body.overdue,
         slot: req.body.slot,
         slot_Price: req.body.slot_Price,

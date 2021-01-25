@@ -26,7 +26,7 @@ module.exports = (sequelize,Sequelize) => {
         latest_Payment_Date: {
             type: Sequelize.DATE
         },
-        Due_Date: {
+        latest_Due_Date: {
             type: Sequelize.DATE
         },
         rent_Date: {
