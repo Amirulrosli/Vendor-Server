@@ -34,9 +34,10 @@ app.get("/", (req, res) => {
   res.json({ message: "Server Works like a charm." });
 });
 
-// set port, listen for requests
+// set port, listen for requests (SET ROUTES)
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
+const notification = require("./app/routes/notification.routes")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -47,9 +48,10 @@ const db = require("./app/models");
 const Op = db.Sequelize.Op;
 const Payment = db.payments;
 const Profile = db.tutorials;
+const Notification = db.notification;
 
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
     console.log("Drop table and resync")
 
 });
@@ -70,9 +72,7 @@ schedule.scheduleJob('*/5 * * * *',function(){
   Profile.findAll().then(data=> {
     var profileData = data;
 
-  
-    return new Promise (async (resolve)=> {
-  
+    
       for(let i = 0; i<profileData.length; i++ ){
   
         var due_Date = profileData[i].dataValues.latest_Due_Date;
@@ -88,26 +88,36 @@ schedule.scheduleJob('*/5 * * * *',function(){
         if (due_DateDay <= day){
           if (due_DateMonth <= month){
             if(due_DateYear <= year){
-              arrayPayment.push(profileData[i].dataValues)
+              arrayPayment.push(profileData[i].dataValues);
      
             }
-        } else if (due_DateMonth <= month) {
-          if(due_DateYear <= year){
-            arrayPayment.push(profileData[i].dataValues)
+          } else if (due_DateYear <= year) {
+              if(due_DateYear <= year){
+                arrayPayment.push(profileData[i].dataValues);
         
+              }
           }
-        }
   
+        }else if (due_DateMonth <= month){
+          if(due_DateYear <= year){
+            arrayPayment.push(profileData[i].dataValues);
+          }
+        } else if(due_DateYear <= year){
+          arrayPayment.push(profileData[i].dataValues);
         }
           
   
       }
+
+      console.log(arrayPayment)
         
         return new Promise (async (resolve)=> {
+      
           for(let i = 0; i < arrayPayment.length; i++){
   
             var rid = arrayPayment[i].rid;
             var email = arrayPayment[i].email;
+            var name = arrayPayment[i].name;
             var slot = arrayPayment[i].slot;
             var slot_Price = arrayPayment[i].slot_Price;
             var latest_Due_Date = arrayPayment[i].latest_Due_Date;
@@ -115,9 +125,7 @@ schedule.scheduleJob('*/5 * * * *',function(){
             Payment.findAll({where: {rid: rid, due_Date: latest_Due_Date}}).then(data=> {
               var payment = data;
 
-              if (payment[0].dataValues.send_Email == true){
-
-                console.log(email)
+              if (payment[0].dataValues.send_Email == false){
       
                 var transporter = nodemailer.createTransport({
                   service: 'gmail',
@@ -138,9 +146,26 @@ schedule.scheduleJob('*/5 * * * *',function(){
                   if (error){
                     console.log(error)
                   } else {
+
+                    
+                    const notify = {
+                      rid: rid,
+                      title: 'User Reminder Notification', 
+                      description: 'Automated Email has been sent to '+name+'\n Email: '+email+'\n Account ID: '+rid,
+                      category: 'Automated Email Reminder',
+                      date: date,
+                      view: false
+                  };
+
+                  Notification.create(notify).then(data=> {
+                    console.log("Notify to client with id:"+data.id)
+                  })
+
+
+                    //Payment Update
+
                     payment[0].dataValues.send_Email = true;
                     var id = payment[0].dataValues.id;
-                    console.log(payment)
 
                     var updatedPayment = {
                       id: payment[0].dataValues.id,
@@ -163,9 +188,7 @@ schedule.scheduleJob('*/5 * * * *',function(){
                   }
                 })
 
-              } else {
-                return;
-              }
+              } 
              
             })
     
@@ -181,15 +204,13 @@ schedule.scheduleJob('*/5 * * * *',function(){
     
     }).catch(err=> {
       console.log(err)
-    })
+    });
       
     
   
   
   
-  
-  
-  });
+ 
 })
 
 
