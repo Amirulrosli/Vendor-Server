@@ -19,9 +19,9 @@ exports.create = (req, res) => {
     date_Now = new Date();
     let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
 
-    var rid = "V_01"+req.body.slot+today+"0000"+req.body.IC_Number;
+    var rid = "V_01"+today+"0000"+req.body.IC_Number;
 
-    
+     
 
 
     const profile = {

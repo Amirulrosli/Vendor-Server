@@ -1,10 +1,3 @@
-// const http = require('http');
-// var express = require('express');
-// var app = express();
-
-// // Start the server on port 3000
-// app.listen(3000, '127.0.0.1');
-// console.log('Node server running on port 3000');
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -38,6 +31,7 @@ app.get("/", (req, res) => {
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 const notification = require("./app/routes/notification.routes")(app);
+const slot = require("./app/routes/slot.routes")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -61,12 +55,12 @@ const day = date.getDate();
 const month = date.getMonth()+1;
 const year = date.getFullYear();
 
-console.log(date)
+console.log("58:  "+month)
 
 arrayPayment = [];
 
 // schedule.scheduleJob({hour: 00, minute: 00}, function(){
-schedule.scheduleJob('*/5 * * * *',function(){
+schedule.scheduleJob('*/1 * * * *',function(){
   console.log("Server will execute gmail every 12:00")
 
   Profile.findAll().then(data=> {
@@ -85,28 +79,23 @@ schedule.scheduleJob('*/5 * * * *',function(){
         var due_DateMonth = due_Date.getMonth()+1;
         var due_DateYear = due_Date.getFullYear();
   
-        if (due_DateDay <= day){
-          if (due_DateMonth <= month){
-            if(due_DateYear <= year){
+        if (due_DateDay <= day){ //12 vs 10
+          if (due_DateMonth <= month){ 
+            if(due_DateYear <= year){ 
               arrayPayment.push(profileData[i].dataValues);
-     
             }
-          } else if (due_DateYear <= year) {
-              if(due_DateYear <= year){
+          } else if (due_DateYear < year) { 
+
                 arrayPayment.push(profileData[i].dataValues);
-        
-              }
+              
           }
-  
-        }else if (due_DateMonth <= month){
-          if(due_DateYear <= year){
-            arrayPayment.push(profileData[i].dataValues);
-          }
-        } else if(due_DateYear <= year){
+        } else if (due_DateMonth <= month){ //3 vs 2
+            if(due_DateYear < year){ //2021 vs 2021
+              arrayPayment.push(profileData[i].dataValues);
+            } 
+        } else if(due_DateYear < year){
           arrayPayment.push(profileData[i].dataValues);
-        }
-          
-  
+        } 
       }
 
       console.log(arrayPayment)
@@ -187,31 +176,15 @@ schedule.scheduleJob('*/5 * * * *',function(){
                     console.log('Email sent:'+info.response)
                   }
                 })
-
-              } 
-             
+              }           
             })
-    
-               
-      
           }
-    
-  
         })
-        
-       
-      
-    
     }).catch(err=> {
       console.log(err)
+      return;
     });
-      
-    
-  
-  
-  
- 
-})
+});
 
 
 
