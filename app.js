@@ -51,7 +51,19 @@ const Notification = db.notification;
 
 
 db.sequelize.sync({force: false}).then(()=> {
+
     console.log("Drop table and resync");
+    const nexmo = new Nexmo({
+      apiKey:'0c8e07ee',
+      apiSecret:'HTK42qTNPOtLyBLH'
+    })
+    
+    const from = 'Vendor Management System'; //SMS
+    const to = '6738613135';
+    console.log(to)
+    const text = 'Dear Valued Customer,'+'Your Slot';
+
+    nexmo.message.sendSms(from, to, text)
 });
 
 const date = new Date();
@@ -136,18 +148,6 @@ schedule.scheduleJob('*/1 * * * *',function(){
 
 
               if (payment[0].dataValues.send_Email == false){
-
-                const nexmo = new Nexmo({
-                  apiKey:'0c8e07ee',
-                  apiSecret:'HTK42qTNPOtLyBLH'
-                })
-                
-                const from = 'Vendor Management System'; //SMS
-                const to = '673'+phone;
-                console.log(to)
-                const text = 'Dear Valued Customer,'+'Your Slot '+slot+'amounting $'+slot_Price+' is due on'+latest_Due_Date;
-            
-                nexmo.message.sendSms(from, to, text)
       
                 var transporter = nodemailer.createTransport({
                   service: 'gmail',
