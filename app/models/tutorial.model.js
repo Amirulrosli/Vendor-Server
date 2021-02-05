@@ -36,7 +36,7 @@ module.exports = (sequelize,Sequelize) => {
             type: Sequelize.DOUBLE
         },
         overdue: {
-            type: Sequelize.DOUBLE
+            type: Sequelize.BOOLEAN
         },
         phone: {
             type: Sequelize.INTEGER

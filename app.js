@@ -6,9 +6,11 @@ const webpush = require('web-push')
 var sql = require('mssql')
 var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
-
+const Nexmo = require('nexmo')
 
 const app = express();
+
+
 
 //cors
 var corsOptions = {
@@ -26,6 +28,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Server Works like a charm." });
 });
+
+//external services api
+
 
 // set port, listen for requests (SET ROUTES)
 const api = require("./app/routes/tutorial.routes")(app);
@@ -45,9 +50,8 @@ const Profile = db.tutorials;
 const Notification = db.notification;
 
 
-db.sequelize.sync({force: true}).then(()=> {
-    console.log("Drop table and resync")
-
+db.sequelize.sync({force: false}).then(()=> {
+    console.log("Drop table and resync");
 });
 
 const date = new Date();
@@ -78,27 +82,42 @@ schedule.scheduleJob('*/1 * * * *',function(){
         var due_DateDay = due_Date.getDate();
         var due_DateMonth = due_Date.getMonth()+1;
         var due_DateYear = due_Date.getFullYear();
-  
-        if (due_DateDay <= day){ //12 vs 10
-          if (due_DateMonth <= month){ 
-            if(due_DateYear <= year){ 
+
+        if (due_DateYear == year){
+          if (due_DateMonth == month){
+            if (due_DateDay <= day){
               arrayPayment.push(profileData[i].dataValues);
             }
-          } else if (due_DateYear < year) { 
-
-                arrayPayment.push(profileData[i].dataValues);
-              
+          } else if (due_DateMonth < month){
+            arrayPayment.push(profileData[i].dataValues);
           }
-        } else if (due_DateMonth <= month){ //3 vs 2
-            if(due_DateYear < year){ //2021 vs 2021
-              arrayPayment.push(profileData[i].dataValues);
-            } 
-        } else if(due_DateYear < year){
+        }else if (due_DateYear < year){
           arrayPayment.push(profileData[i].dataValues);
-        } 
+        }
+  
+        // if (due_DateDay <= day){ //12 vs 10
+        //   if (due_DateMonth <= month){ 
+        //     if(due_DateYear <= year){ 
+        //       arrayPayment.push(profileData[i].dataValues);
+        //     }
+        //   } else if (due_DateYear < year) { 
+        //         arrayPayment.push(profileData[i].dataValues);
+        //   }
+        // } else if (due_DateMonth < month){ //3 vs 2
+        //     if(due_DateYear <= year){ //2021 vs 2021
+        //       arrayPayment.push(profileData[i].dataValues);
+        //     } 
+        // } else if (due_DateMonth == month) {
+
+        //     if(due_DateYear < year){ //2021 vs 2021
+        //       arrayPayment.push(profileData[i].dataValues);
+        //     } 
+        // } else if(due_DateYear < year){
+        //   arrayPayment.push(profileData[i].dataValues);
+        // } 
       }
 
-      console.log(arrayPayment)
+      
         
         return new Promise (async (resolve)=> {
       
@@ -110,11 +129,25 @@ schedule.scheduleJob('*/1 * * * *',function(){
             var slot = arrayPayment[i].slot;
             var slot_Price = arrayPayment[i].slot_Price;
             var latest_Due_Date = arrayPayment[i].latest_Due_Date;
+            var phone = arrayPayment[i].phone;
 
             Payment.findAll({where: {rid: rid, due_Date: latest_Due_Date}}).then(data=> {
               var payment = data;
 
+
               if (payment[0].dataValues.send_Email == false){
+
+                const nexmo = new Nexmo({
+                  apiKey:'0c8e07ee',
+                  apiSecret:'HTK42qTNPOtLyBLH'
+                })
+                
+                const from = 'Vendor Management System'; //SMS
+                const to = '673'+phone;
+                console.log(to)
+                const text = 'Dear Valued Customer,'+'Your Slot '+slot+'amounting $'+slot_Price+' is due on'+latest_Due_Date;
+            
+                nexmo.message.sendSms(from, to, text)
       
                 var transporter = nodemailer.createTransport({
                   service: 'gmail',
@@ -166,7 +199,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
                       send_Email: payment[0].dataValues.send_Email,
                     }
                     Payment.update(updatedPayment,{where: {id:id}}).then(result => {
-                      console.log(result)
+                     
                       if (result == 1){
                         console.log("Successfully updated id:"+id)
                       } else {

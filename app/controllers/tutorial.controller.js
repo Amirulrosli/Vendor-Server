@@ -162,6 +162,18 @@ exports.findAlloverdue = (req,res)=> {
 
 };
 
+exports.findAllPaid = (req,res)=> {
+    Profile.findAll({where: {overdue: false}}).then (data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message: err.message
+        });
+        
+    });
+
+};
+
 
 exports.findAllbyIC = (req,res)=> {
 

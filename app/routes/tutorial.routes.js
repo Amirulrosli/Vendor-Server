@@ -5,6 +5,7 @@ module.exports = app => {
     router.post("/", tcontroller.create);
     router.get("/",tcontroller.findAll)
     router.get("/overdue", tcontroller.findAlloverdue)
+    router.get("/paid", tcontroller.findAllPaid)
     router.get("/:id",tcontroller.findOne)
     router.put("/update/:id",tcontroller.update)
     router.delete("/:id",tcontroller.delete)
