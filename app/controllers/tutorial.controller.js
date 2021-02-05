@@ -178,25 +178,25 @@ exports.findAllPaid = (req,res)=> {
 exports.findAllbyIC = (req,res)=> {
 
     const IC_Number = req.params.IC_Number;
-    var condition = IC_Number ? { IC_Number: {[Op.like]: `%${IC_Number}`}}: null;
-    Profile.findAll({where: condition}).then(data=> {
+    Profile.findAll({where: {IC_Number: IC_Number}}).then (data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
-            message:err.message
-        })
-    })
+            message: err.message
+        });
+        
+    });
 }
 
 exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
-    var condition = rid ? { rid: {[Op.like]: `%${rid}`}}: null;
-    Profile.findAll({where: condition}).then(data=> {
+    Profile.findAll({where: {rid: rid}}).then (data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
-            message:err.message
-        })
-    })
+            message: err.message
+        });
+        
+    });
 }
