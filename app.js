@@ -53,30 +53,21 @@ const Notification = db.notification;
 db.sequelize.sync({force: false}).then(()=> {
 
     console.log("Drop table and resync");
-    const nexmo = new Nexmo({
-      apiKey:'0c8e07ee',
-      apiSecret:'HTK42qTNPOtLyBLH'
-    })
-    
-    const from = 'Vendor Management System'; //SMS
-    const to = '6738613135';
-    console.log(to)
-    const text = 'Dear Valued Customer,'+'Your Slot';
 
-    nexmo.message.sendSms(from, to, text)
 });
 
-const date = new Date();
-const day = date.getDate();
-const month = date.getMonth()+1;
-const year = date.getFullYear();
 
-console.log("58:  "+month)
-
-arrayPayment = [];
 
 // schedule.scheduleJob({hour: 00, minute: 00}, function(){
 schedule.scheduleJob('*/1 * * * *',function(){
+
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth()+1;
+  const year = date.getFullYear();
+  arrayPayment = [];
+
+
   console.log("Server will execute gmail every 12:00")
 
   Profile.findAll().then(data=> {
@@ -132,85 +123,105 @@ schedule.scheduleJob('*/1 * * * *',function(){
       
         
         return new Promise (async (resolve)=> {
+
+          console.log(arrayPayment)
       
           for(let i = 0; i < arrayPayment.length; i++){
+
+              Payment.findAll({where: {rid: arrayPayment[i].rid, due_Date: arrayPayment[i].latest_Due_Date }}).then(data=> {
+                var payment = data;
+
+                var rid = arrayPayment[i].rid;
+                console.log(arrayPayment[i].rid)
+                var email = arrayPayment[i].email;
+                var name = arrayPayment[i].name;
+                var slot = arrayPayment[i].slot;
+                var slot_Price = arrayPayment[i].slot_Price;
+                var latest_Due_Date = arrayPayment[i].latest_Due_Date;
+                var phone = arrayPayment[i].phone;
+    
+                console.log(payment)
   
-            var rid = arrayPayment[i].rid;
-            var email = arrayPayment[i].email;
-            var name = arrayPayment[i].name;
-            var slot = arrayPayment[i].slot;
-            var slot_Price = arrayPayment[i].slot_Price;
-            var latest_Due_Date = arrayPayment[i].latest_Due_Date;
-            var phone = arrayPayment[i].phone;
+                if (payment[0].dataValues.send_Email == false){
 
-            Payment.findAll({where: {rid: rid, due_Date: latest_Due_Date}}).then(data=> {
-              var payment = data;
-
-
-              if (payment[0].dataValues.send_Email == false){
-      
-                var transporter = nodemailer.createTransport({
-                  service: 'gmail',
-                  auth: {
-                    user: 'meerros810@gmail.com',
-                    pass: 'lymuafvzvxrqyfgj'
-                  }
-                });
-                
-                var mailOptions = {
-                  from: 'meerros810@gmail.com',
-                  to: email,
-                  subject: '[Payment Overdue] Payment overdue for slot '+slot,
-                  html: '<h1>Dear Valued Customer</h1><br><p>Your slot has an overdue of <p>'+slot_Price
-                }
-                
-                transporter.sendMail(mailOptions, function(error,info){
-                  if (error){
-                    console.log(error)
-                  } else {
-
-                    
-                    const notify = {
-                      rid: rid,
-                      title: 'User Reminder Notification', 
-                      description: 'Automated Email has been sent to '+name+'\n Email: '+email+'\n Account ID: '+rid,
-                      category: 'Automated Email Reminder',
-                      date: date,
-                      view: false
-                  };
-
-                  Notification.create(notify).then(data=> {
-                    console.log("Notify to client with id:"+data.id)
+  
+                  const phoneNumber = "673"+phone;
+                  const nexmo = new Nexmo({
+                    apiKey:'0c8e07ee',
+                    apiSecret:'HTK42qTNPOtLyBLH'
                   })
-
-
-                    //Payment Update
-
-                    payment[0].dataValues.send_Email = true;
-                    var id = payment[0].dataValues.id;
-
-                    var updatedPayment = {
-                      id: payment[0].dataValues.id,
-                      rid: payment[0].dataValues.rid,
-                      payment_Date: payment[0].dataValues.payment_Date,
-                      due_Date: payment[0].dataValues.due_Date,
-                      price: payment[0].dataValues.price,
-                      email: payment[0].dataValues.email,
-                      send_Email: payment[0].dataValues.send_Email,
+                  
+                  const from = 'VMS';
+                  const to = phoneNumber;
+                  console.log(to)
+                  const text = 'Dear valued customer, your slot number: '+slot+' amounting $'+slot_Price+' due on '+latest_Due_Date+ '. Thank You';
+              
+                  nexmo.message.sendSms(from, to, text);
+        
+                  var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                      user: 'meerros810@gmail.com',
+                      pass: 'lymuafvzvxrqyfgj'
                     }
-                    Payment.update(updatedPayment,{where: {id:id}}).then(result => {
-                     
-                      if (result == 1){
-                        console.log("Successfully updated id:"+id)
-                      } else {
-                        console.log("Cannot Update id:"+id)
-                      }
-                    })
-                    console.log('Email sent:'+info.response)
+                  });
+  
+                  console.log("Email:"+email)
+                  
+                  var mailOptions = {
+                    from: 'meerros810@gmail.com',
+                    to: email,
+                    subject: '[Payment Overdue] Payment overdue for slot '+slot,
+                    html: '<h1>Dear Valued Customer</h1><br><p>Your slot has an overdue of <p>'+slot_Price
                   }
-                })
-              }           
-            })
+                  
+                  transporter.sendMail(mailOptions, function(error,info){
+                    if (error){
+                      console.log(error)
+                    } else {
+  
+                      
+                      const notify = {
+                        rid: rid,
+                        title: 'User Reminder Notification', 
+                        description: 'Automated Email has been sent to '+name+'\n Email: '+email+'\n Account ID: '+rid,
+                        category: 'Automated Email Reminder',
+                        date: date,
+                        view: false
+                    };
+  
+                    Notification.create(notify).then(data=> {
+                      console.log("Notify to client with id:"+data.id)
+                    })
+  
+  
+                      //Payment Update
+  
+                      payment[0].dataValues.send_Email = true;
+                      var id = payment[0].dataValues.id;
+  
+                      var updatedPayment = {
+                        id: payment[0].dataValues.id,
+                        rid: payment[0].dataValues.rid,
+                        payment_Date: payment[0].dataValues.payment_Date,
+                        due_Date: payment[0].dataValues.due_Date,
+                        price: payment[0].dataValues.price,
+                        email: payment[0].dataValues.email,
+                        send_Email: payment[0].dataValues.send_Email,
+                      }
+                      Payment.update(updatedPayment,{where: {id:id}}).then(result => {
+                       
+                        if (result == 1){
+                          console.log("Successfully updated id:"+id)
+                        } else {
+                          console.log("Cannot Update id:"+id)
+                        }
+                      })
+                      console.log('Email sent:'+info.response)
+                    }
+                  })
+                }           
+              })  
           }
         })
     }).catch(err=> {
