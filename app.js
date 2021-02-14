@@ -56,17 +56,14 @@ db.sequelize.sync({force: false}).then(()=> {
 
 });
 
-
+const date = new Date();
+const day = date.getDate();
+const month = date.getMonth()+1;
+const year = date.getFullYear();
+arrayPayment = [];
 
 // schedule.scheduleJob({hour: 00, minute: 00}, function(){
 schedule.scheduleJob('*/1 * * * *',function(){
-
-  const date = new Date();
-  const day = date.getDate();
-  const month = date.getMonth()+1;
-  const year = date.getFullYear();
-  arrayPayment = [];
-
 
   console.log("Server will execute gmail every 12:00")
 
@@ -85,6 +82,9 @@ schedule.scheduleJob('*/1 * * * *',function(){
         var due_DateDay = due_Date.getDate();
         var due_DateMonth = due_Date.getMonth()+1;
         var due_DateYear = due_Date.getFullYear();
+
+        console.log(day+".."+month+".."+year)
+        console.log(due_DateDay+".."+due_DateMonth+".."+due_DateYear)
 
         if (due_DateYear == year){
           if (due_DateMonth == month){

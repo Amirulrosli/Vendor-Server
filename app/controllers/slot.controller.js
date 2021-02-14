@@ -96,11 +96,11 @@ exports.delete = (req,res)=> {
     .then(result=> {
         if (result == 1){
             res.send({
-                message: "Notification has deleted successfully"
+                message: "Slot has deleted successfully"
             })
         } else {
             res.send({
-                message:"Notification Cannot be deleted. Empty or no result found"
+                message:"Slot Cannot be deleted. Empty or no result found"
             })
         }
     }).catch (error=> {
@@ -110,6 +110,28 @@ exports.delete = (req,res)=> {
     })
 
 };
+
+exports.deleteByRid = (req,res)=> {
+    const rid = req.params.rid;
+
+    Slot.destroy({
+        where :{rid: rid}
+    }).then(result=> {
+        if (result ==1){
+            res.send({
+                message:"Slot has deleted Successfully "
+            })
+        } else {
+            res.send({
+                message:"Slot cannot be deleted. Empty or no result found"
+            })
+        }
+    }).catch(error=> {
+        res.status(500).send({
+            message: "Error!"
+        })
+    })
+}
 
 exports.deleteAll= (req,res)=> {
 
@@ -129,8 +151,7 @@ exports.deleteAll= (req,res)=> {
 exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
-    var condition = rid ? { rid: {[Op.like]: `%${rid}`}}: null;
-    Slot.findAll({where: condition}).then(data=> {
+    Slot.findAll({where: {rid:rid}}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
@@ -143,8 +164,7 @@ exports.findAllbyRID = (req,res)=> {
 exports.findbySlot = (req,res)=> {
 
     const slot_Number = req.params.slot_Number;
-    var condition = slot_Number ? { slot_Number: {[Op.like]: `%${slot_Number}`}}: null;
-    Slot.findAll({where: condition}).then(data=> {
+    Slot.findAll({where: {slot_Number: slot_Number}}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

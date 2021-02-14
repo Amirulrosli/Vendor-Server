@@ -8,6 +8,7 @@ module.exports = app => {
     router.put("/update/:id",tcontroller.update)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
+    router.delete("/rid/:rid", tcontroller.deleteByRid)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.get("/slot/:slot_Number",tcontroller.findbySlot)
     
