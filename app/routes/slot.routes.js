@@ -10,7 +10,8 @@ module.exports = app => {
     router.delete("/", tcontroller.deleteAll)
     router.delete("/rid/:rid", tcontroller.deleteByRid)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
-    router.get("/slot/:slot_Number",tcontroller.findbySlot)
+    // router.get("/slot/:slot_Number",tcontroller.findbySlot)
+  
     
     app.use('/api/slots', router)
 

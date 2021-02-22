@@ -3,6 +3,39 @@ const db = require("../models");
 const tutorialModel = require("../models/tutorial.model");
 const Profile = db.tutorials;
 const Op = db.Sequelize.Op;
+var nodemailer = require('nodemailer')
+
+
+exports.sendMailing = (req,res)=> {
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'meerros810@gmail.com',
+          pass: 'lymuafvzvxrqyfgj'
+        }
+      });
+
+      console.log("Email:"+email)
+      
+      var mailOptions = {
+        from: 'meerros810@gmail.com',
+        to: email,
+        subject: '[Payment Overdue] Payment overdue for slot '+slot,
+        html: '<h1>Dear Valued Customer</h1><br><p>Your slot has an overdue of <p>'+slot_Price
+      }
+
+
+      transporter.sendMail(mailOptions, function(error,info){
+        if (error){
+          console.log(error)
+        } else {
+            console.log("Success: "+ info.response)
+        }
+
+    })
+
+};
 
 
 

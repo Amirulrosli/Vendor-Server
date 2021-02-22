@@ -3,6 +3,7 @@ const slotModel = require("../models/slot.model");
 const Slot = db.slot;
 const Op = db.Sequelize.Op;
 
+
 exports.create = (req, res) => {
     
     // if (!req.body.name){
@@ -33,9 +34,9 @@ exports.create = (req, res) => {
 
 exports.findAll = (req,res)=> {
     const rid = req.query.rid;
-    var condition = rid ? { rid: {[Op.like]: `%${rid}%`}}: null;
+   
 
-    Slot.findAll({ where: condition }).then(data=> {
+    Slot.findAll().then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
