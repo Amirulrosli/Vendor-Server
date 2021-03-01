@@ -37,6 +37,7 @@ const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 const notification = require("./app/routes/notification.routes")(app);
 const slot = require("./app/routes/slot.routes")(app);
+const email = require("./app/routes/email.routes")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

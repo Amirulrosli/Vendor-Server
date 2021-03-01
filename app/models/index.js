@@ -23,6 +23,7 @@ db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.payments = require("./Payment.model.js")(sequelize,Sequelize);
 db.notification = require("./notification.model.js")(sequelize,Sequelize);
 db.slot = require("./slot.model.js")(sequelize,Sequelize);
+db.email = require("./email.model.js")(sequelize,Sequelize);
 
 // db.tutorials.hasMany(db.payments, { as: "payments "});
 // db.payments.belongsTo(db.tutorials, {
