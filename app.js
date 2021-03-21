@@ -98,31 +98,8 @@ schedule.scheduleJob('*/1 * * * *',function(){
         }else if (due_DateYear < year){
           arrayPayment.push(profileData[i].dataValues);
         }
-  
-        // if (due_DateDay <= day){ //12 vs 10
-        //   if (due_DateMonth <= month){ 
-        //     if(due_DateYear <= year){ 
-        //       arrayPayment.push(profileData[i].dataValues);
-        //     }
-        //   } else if (due_DateYear < year) { 
-        //         arrayPayment.push(profileData[i].dataValues);
-        //   }
-        // } else if (due_DateMonth < month){ //3 vs 2
-        //     if(due_DateYear <= year){ //2021 vs 2021
-        //       arrayPayment.push(profileData[i].dataValues);
-        //     } 
-        // } else if (due_DateMonth == month) {
-
-        //     if(due_DateYear < year){ //2021 vs 2021
-        //       arrayPayment.push(profileData[i].dataValues);
-        //     } 
-        // } else if(due_DateYear < year){
-        //   arrayPayment.push(profileData[i].dataValues);
-        // } 
       }
 
-      
-        
         return new Promise (async (resolve)=> {
 
           console.log(arrayPayment)
@@ -173,7 +150,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
                     from: 'meerros810@gmail.com',
                     to: email,
                     subject: '[Payment Overdue] Payment overdue for slot '+slot,
-                    html: '<h1>Dear Valued Customer</h1><br><p>Your slot has an overdue of <p>'+slot_Price
+                    html: '<h3>Dear Valued Customer</h3> <br><p>Your slot has an overdue of <p>'+slot_Price
                   }
                   
                   transporter.sendMail(mailOptions, function(error,info){
