@@ -156,7 +156,6 @@ schedule.scheduleJob('*/1 * * * *',function(){
                     '<thead>' +
                     '<th style="border: 1px solid gray" > Account ID </th>' +
                     '<th style="border: 1px solid gray"> Vendor Name</th>'  +
-                    '<th style="border: 1px solid gray"> Email </th>'  +
                     '<th style="border: 1px solid gray"> Slot Number </th>'  +
                     '<th style="border: 1px solid gray"> latest payment made </th>'  +
                     '<th style="border: 1px solid gray; color: red"> Total Overdue Amount </th>'  +
@@ -166,7 +165,6 @@ schedule.scheduleJob('*/1 * * * *',function(){
                     '<tr style="text-align: center;">' +
                     '<td style="border: 1px solid gray">' + rid + '</td>' +
                     '<td style="border: 1px solid gray">' + name + '</td>' +
-                    '<td style="border: 1px solid gray">' + email + '</td>' +
                     '<td style="border: 1px solid gray">' + slot + '</td>' +
                     '<td style="border: 1px solid gray">' + latest_Payment_Date + '</td>' +
                     '<td style="border: 1px solid gray; color: red">$' + slot_Price + '</td>' +
