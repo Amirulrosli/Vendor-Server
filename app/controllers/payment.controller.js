@@ -5,15 +5,6 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     
-    // if (!req.body.name){
-    //     res.status(400).send({
-    //         message: "Error, Content cannot be empty"
-    //     });
-    //     return;
-    // }
-
-
-
     const payment = {
         id: req.body.id,
         rid: req.body.rid,

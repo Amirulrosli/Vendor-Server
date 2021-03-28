@@ -116,6 +116,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
                 var slot = arrayPayment[i].slot;
                 var slot_Price = arrayPayment[i].slot_Price;
                 var latest_Due_Date = arrayPayment[i].latest_Due_Date;
+                var latest_Payment_Date = arrayPayment[i].latest_Payment_Date;
                 var phone = arrayPayment[i].phone;
     
                 console.log(payment)
@@ -145,12 +146,42 @@ schedule.scheduleJob('*/1 * * * *',function(){
                   });
   
                   console.log("Email:"+email)
+
+                  let emailMessage = (
+                    '<h3>Dear '+ name +',</h3>'+
+                    '<p>Just for a reminder, your payment is now overdue, Please Refer to the table below for your upcoming payment: <p>'+
+
+                    
+                    '<table style="width:100%; margin: 0 auto;font-size: 14px; color: black; border: 1px solid gray">' +
+                    '<thead>' +
+                    '<th style="border: 1px solid gray" > Account ID </th>' +
+                    '<th style="border: 1px solid gray"> Vendor Name</th>'  +
+                    '<th style="border: 1px solid gray"> Email </th>'  +
+                    '<th style="border: 1px solid gray"> Slot Number </th>'  +
+                    '<th style="border: 1px solid gray"> latest payment made </th>'  +
+                    '<th style="border: 1px solid gray; color: red"> Total Overdue Amount </th>'  +
+                    '<th style="border: 1px solid gray"> Due Date </th>'  +
+                    '</thead>' +
+                    
+                    '<tr style="text-align: center;">' +
+                    '<td style="border: 1px solid gray">' + rid + '</td>' +
+                    '<td style="border: 1px solid gray">' + name + '</td>' +
+                    '<td style="border: 1px solid gray">' + email + '</td>' +
+                    '<td style="border: 1px solid gray">' + slot + '</td>' +
+                    '<td style="border: 1px solid gray">' + latest_Payment_Date + '</td>' +
+                    '<td style="border: 1px solid gray; color: red">$' + slot_Price + '</td>' +
+                    '<td style="border: 1px solid gray">' + latest_Due_Date + '</td>' +
+                     
+                    '</tr>'+
+                    '</table>'+
+                    '<p> If you already make the payment, please ignore the email and SMS reminder. Thank You </p>'
+                  );
                   
                   var mailOptions = {
                     from: 'meerros810@gmail.com',
                     to: email,
                     subject: '[Payment Overdue] Payment overdue for slot '+slot,
-                    html: '<h3>Dear Valued Customer</h3> <br><p>Your slot has an overdue of <p>'+slot_Price
+                    html: emailMessage
                   }
                   
                   transporter.sendMail(mailOptions, function(error,info){
