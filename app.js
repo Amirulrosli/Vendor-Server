@@ -7,7 +7,6 @@ var sql = require('mssql')
 var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
 const Nexmo = require('nexmo')
-
 const app = express();
 
 
@@ -25,20 +24,23 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Server Works like a charm." });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Server Works like a charm." });
+// });
 
-//external services api
+app.use(express.static('vendorManagement'))
 
 
-// set port, listen for requests (SET ROUTES)
+
+
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 const notification = require("./app/routes/notification.routes")(app);
 const slot = require("./app/routes/slot.routes")(app);
 const email = require("./app/routes/email.routes")(app);
+const account = require("./app/routes/account.routes")(app);
 
+// set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
@@ -56,6 +58,8 @@ db.sequelize.sync({force: false}).then(()=> {
     console.log("Drop table and resync");
 
 });
+
+
 
 const date = new Date();
 const day = date.getDate();
