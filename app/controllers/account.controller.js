@@ -21,7 +21,7 @@ exports.loginFunction = (req,res)=> {
               res.send(data)
           } else {
               res.status(500).send({
-                  message: "Login Failed, Password is incorrectt!"
+                  message: "Login Failed, Password is incorrect!"
               })
           }
       }).catch(error=>{
