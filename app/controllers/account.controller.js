@@ -44,33 +44,47 @@ exports.createAccount = (req,res)=> {
 
     const rid = "ACC_"+IC_Number
     const username = req.body.username;
-    const password = req.body.password;
+    const oldPassword = req.body.password;
     const email = req.body.email;
     const IC_Number = req.body.IC_Number;
     const last_Login = createdDate;
     const role = req.body.role;
+    var saltRounds = 12;
 
-   
+    bcrypt.hash(oldPassword,saltRounds,function(error,hash){
+        const password = hash;
 
+        var account = {
+            rid:rid,
+            username: username,
+            password: password,
+            email: email,
+            IC_Number: IC_Number,
+            last_Login: last_Login,
+            role:role
+        }
 
+        Account.create(account).then(data=> {
+            res.send(data)
+        }).catch(err=> {
+            res.status(500).send({
+                message: "Cannot create account with username: "+username
+            })
+        });
 
-    var account = {
-        rid:rid,
-        username: username,
-        password: password,
-        email: email,
-        IC_Number: IC_Number,
-        last_Login: last_Login,
-        role:role
-    }
+        if (error){
+            res.status(500).send({
+                message: "Cannot encrypt password with username: "+username
+            })
+        }   
 
-    Account.create(account).then(data=> {
-        res.send(data)
     }).catch(err=> {
+
         res.status(500).send({
-            message: "Cannot create account with username: "+username
+            message: "Cannot encrypt password with username: "+username
         })
-    })   
+
+    })
 };
 
 exports.update = (req,res) => {
@@ -128,7 +142,7 @@ exports.delete = (req,res) => {
 
         } else {
             res.send({
-                message: "Cannot Delte user Account (ERROR)"
+                message: "Cannot Delete user Account (ERROR)"
             })
         }
     }).catch(error=> {
