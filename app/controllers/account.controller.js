@@ -2,7 +2,7 @@ const db = require("../models");
 const AccountModel = require("../models/account.model");
 const Account = db.account;
 const Op = db.Sequelize.Op;
-const bcrypt = require('bcrypt')
+
 
 exports.loginFunction = (req,res)=> {
 
@@ -40,51 +40,47 @@ exports.loginFunction = (req,res)=> {
 
 exports.createAccount = (req,res)=> {
 
-    var createdDate = new Date();
+    const bcrypt = require('bcrypt')
 
-    const rid = "ACC_"+IC_Number
+    let password;
+
     const username = req.body.username;
     const oldPassword = req.body.password;
     const email = req.body.email;
     const IC_Number = req.body.IC_Number;
-    const last_Login = createdDate;
+    const last_Login = req.body.last_Login;
     const role = req.body.role;
+    const rid = "ACC_"+IC_Number
     var saltRounds = 12;
 
-    bcrypt.hash(oldPassword,saltRounds,function(error,hash){
-        const password = hash;
-
-        var account = {
-            rid:rid,
-            username: username,
-            password: password,
-            email: email,
-            IC_Number: IC_Number,
-            last_Login: last_Login,
-            role:role
-        }
-
-        Account.create(account).then(data=> {
-            res.send(data)
-        }).catch(err=> {
-            res.status(500).send({
-                message: "Cannot create account with username: "+username
-            })
-        });
-
-        if (error){
-            res.status(500).send({
-                message: "Cannot encrypt password with username: "+username
-            })
-        }   
-
-    }).catch(err=> {
-
-        res.status(500).send({
-            message: "Cannot encrypt password with username: "+username
+    return new Promise (async (resolve)=> {
+      await  bcrypt.hash(oldPassword,saltRounds,function(err,hash){
+            password = hash;
+            createData(password)
         })
 
-    })
+        function createData(data) {
+
+            var account = {
+                rid:rid,
+                username: username,
+                password: data,
+                email: email,
+                IC_Number: IC_Number,
+                last_Login: last_Login,
+                role:role
+            }
+    
+            Account.create(account).then(data=> {
+                res.send(data)
+            }).catch(err=> {
+                res.status(500).send({
+                    message: "Cannot create account with username: "+username
+                })
+            });
+
+        }
+    });
 };
 
 exports.update = (req,res) => {

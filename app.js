@@ -56,7 +56,7 @@ const Profile = db.tutorials;
 const Notification = db.notification;
 
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
     console.log("Drop table and resync");
 
 });
