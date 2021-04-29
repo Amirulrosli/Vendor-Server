@@ -8,6 +8,7 @@ var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
 const Nexmo = require('nexmo')
 const app = express();
+const fileUpload = require('express-fileupload')
 
 
 
@@ -21,13 +22,13 @@ var tutorialApi = require("./app/routes/tutorial.routes");
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-// parse requests of content-type - application/x-www-form-urlencoded
+// // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 // simple route
 // app.get("/", (req, res) => {
 //   res.json({ message: "Server Works like a charm." });
 // });
-
+app.use(fileUpload()) 
 app.use(express.static('vendorManagement'))
 
 
@@ -39,6 +40,8 @@ const notification = require("./app/routes/notification.routes")(app);
 const slot = require("./app/routes/slot.routes")(app);
 const email = require("./app/routes/email.routes")(app);
 const account = require("./app/routes/account.routes")(app);
+const attachment = require("./app/routes/attachment.routes")(app);
+const relative = require("./app/routes/relative.routes")(app);
 
 // set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;
@@ -54,7 +57,6 @@ const Notification = db.notification;
 
 
 db.sequelize.sync({force: false}).then(()=> {
-
     console.log("Drop table and resync");
 
 });
@@ -240,6 +242,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
       return;
     });
 });
+
 
 
 

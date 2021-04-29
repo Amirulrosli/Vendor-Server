@@ -42,7 +42,6 @@ exports.createAccount = (req,res)=> {
 
     var createdDate = new Date();
 
-
     const rid = "ACC_"+IC_Number
     const username = req.body.username;
     const password = req.body.password;
@@ -50,6 +49,10 @@ exports.createAccount = (req,res)=> {
     const IC_Number = req.body.IC_Number;
     const last_Login = createdDate;
     const role = req.body.role;
+
+   
+
+
 
     var account = {
         rid:rid,
@@ -72,9 +75,9 @@ exports.createAccount = (req,res)=> {
 
 exports.update = (req,res) => {
 
-    const rid = req.params.rid;
+    const id = req.params.id;
 
-    Account.update(req.body, {where: {rid: rid}}).then(result=> {
+    Account.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
             res.send("Successfully update user account with rid: "+rid)
         } else {
@@ -114,9 +117,9 @@ exports.findAllbyRID = (req,res) => {
 
 exports.delete = (req,res) => {
 
-    const rid = req.params.rid;
+    const id = req.params.id;
 
-    Account.destroy({where: {rid:rid}}).then(result=> {
+    Account.destroy({where: {id:id}}).then(result=> {
         if (result == 1){
 
             res.send({

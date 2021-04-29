@@ -40,6 +40,12 @@ module.exports = (sequelize,Sequelize) => {
         },
         phone: {
             type: Sequelize.INTEGER
+        },
+        address: {
+            type: Sequelize.STRING
+        },
+        contract: {
+            type: Sequelize.BOOLEAN
         }
 
     });
