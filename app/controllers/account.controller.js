@@ -6,35 +6,38 @@ const Op = db.Sequelize.Op;
 
 exports.loginFunction = (req,res)=> {
 
+    const bcrypt = require('bcrypt')
+
     var creds = [];
     
 
     const username = req.body.username;
     const password = req.body.password;
     
-    Account.findAll({where : {usename: username}}).then(data => {
-      creds = data; 
-      var storedPassword = creds.password;
-
-      bcrypt.compare(password, storedPassword, function(error, result){
+    Account.findAll({where : {username: username}}).then(data => {
+        creds = data; 
+        
+        var storedPassword = creds[0].dataValues.password;
+    
+        bcrypt.compare(password, storedPassword, function(error, result){
           if (result){
-              res.send(data)
-          } else {
+              res.send(data[0])
+          }
+
+          if (error){
               res.status(500).send({
-                  message: "Login Failed, Password is incorrect!"
+                  message:"could not complete the process"
               })
           }
-      }).catch(error=>{
-        res.status(500).send({
-            message: "Cannot compare password hash! "
         })
-    })
+    
 
     }).catch(error=> {
         res.status(500).send({
             message: "Login Failed, cannot find username: "+username
         })
     })
+
 
 }
 
