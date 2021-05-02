@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.post("/",tcontroller.createAccount)
     router.get("/",tcontroller.findAll)
-    router.get("/:rid",tcontroller.findAllbyRID)
+    router.get("/:id",tcontroller.findAllbyID)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.post("/login", tcontroller.loginFunction)

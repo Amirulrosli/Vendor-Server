@@ -90,17 +90,19 @@ exports.update = (req,res) => {
 
     const id = req.params.id;
 
-    Account.update(req.body, {where: {id: id}}).then(result=> {
+    Account.update(req.body, {
+        where: {id: id}
+    }).then(result=> {
         if (result == 1){
-            res.send("Successfully update user account with rid: "+rid)
+            res.send("Successfully update user account")
         } else {
             res.send({
-                message: "Cannot Update with RID: "+rid
+                message: `Cannot Update with ID: ${id}`
             })
         }
     }).catch(error=> {
         res.status(500).send({
-            message: "Cannot Update with RID: "+rid
+            message: `Cannot Update with ID: ${id} `
         })
     })
 };
@@ -116,14 +118,14 @@ exports.findAll = (req,res)=> {
     })
 }
 
-exports.findAllbyRID = (req,res) => {
-    const rid = req.params.rid;
+exports.findAllbyID = (req,res) => {
+    const id = req.params.id;
 
-    Account.findAll({where: {rid: rid}}).then(result=> {
+    Account.findAll({where: {id: id}}).then(result=> {
         res.send(result)
     }).catch(err=> {
         res.status(500).send({
-        message: "Cannot find data with RID: "+rid 
+        message: "Cannot find data with ID: "+id 
     });
 })
 };
