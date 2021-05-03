@@ -8,9 +8,9 @@ var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
 const Nexmo = require('nexmo')
 const app = express();
-const fileUpload = require('express-fileupload')
-
-
+const multer = require('multer')
+const fileExtension = require('file-extension')
+const path = require('path')
 
 //cors
 var corsOptions = {
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.get("/", (req, res) => {
 //   res.json({ message: "Server Works like a charm." });
 // });
-app.use(fileUpload()) 
+app.use("/attach-images", express.static(path.join("Attachment")))
 app.use(express.static('vendorManagement'))
 
 
@@ -242,6 +242,83 @@ schedule.scheduleJob('*/1 * * * *',function(){
       return;
     });
 });
+
+
+//File Destination and name (Attach Function) Start -----------------------------------------------------
+
+//Storage Ref
+var storage = multer.diskStorage({
+  destination: function (req, file, cb){
+    cb(null,'Attachment')       //set localhost storage
+  },
+
+  filename: function (req,file, cb) {
+    cb(null, file.fieldname + '-' + Date.now()+'.'+fileExtension(file.originalname))
+  }
+})
+
+//Upload Setting
+
+var upload = multer({
+  storage: storage,
+
+  limits: {
+    fileSize: 10000000
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+      cb(new Error(('Please Upload JPG and PNG image')))
+    }
+
+    cb(undefined, true)
+  }
+});
+
+const dbAtt = require("./app/models");
+const AttahcmentModel = require("./app/models/attachment.model");
+const Attachment = dbAtt.attachment;
+
+app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
+  const file = req.file
+  const vendor_rid = req.body.vendor_rid;
+  const account_rid = req.body.account_rid;
+  const rid = req.body.vendor_rid;
+  const link = file.path;
+  const date_Uploaded = new Date();
+
+  if (!file){
+    const error = new Error('No File')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+
+  var attachment = {
+    vendor_rid: vendor_rid,
+    account_rid: account_rid,
+    rid: rid,
+    link: link,
+    date_Uploaded: date_Uploaded
+  }
+
+  Attachment.create(attachment).then(data=> {
+    res.send(data)
+    
+  }).catch(error=> {
+    res.status(500).send({
+      message:"Failed to create attachment"
+    })
+  })
+
+
+
+
+
+},(error,req,res,next)=> {
+  res.status(500).send({
+    message: error.message
+  })
+})
 
 
 
