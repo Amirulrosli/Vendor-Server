@@ -69,7 +69,8 @@ const month = date.getMonth()+1;
 const year = date.getFullYear();
 arrayPayment = [];
 
-// schedule.scheduleJob({hour: 00, minute: 00}, function(){
+// schedule.scheduleJob({hour: 00, minute: 00}, function(){ ------------------------------------------------
+
 schedule.scheduleJob('*/1 * * * *',function(){
 
   console.log("Server will execute gmail every 12:00")
