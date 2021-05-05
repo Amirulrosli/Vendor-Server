@@ -8,6 +8,7 @@ module.exports = app => {
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.put("/:id",tcontroller.update)
+    router.get("/IC/:IC_Number",tcontroller.findByIC)
 
     app.use('/api/relative',router)
 
