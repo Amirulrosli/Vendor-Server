@@ -18,7 +18,8 @@ exports.create = (req, res) => {
     const notify = {
         id: req.body.id,
         rid: req.body.rid,
-        slot_Number: req.body.slot_Number
+        slot_Number: req.body.slot_Number,
+        taken: req.body.taken
     };
 
     Slot.create(notify).then(data=> {

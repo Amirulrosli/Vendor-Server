@@ -22,14 +22,15 @@ exports.loginFunction = (req,res)=> {
         bcrypt.compare(password, storedPassword, function(error, result){
           if (result){
               res.send(data[0])
+              return;
           }
 
-          if (error){
+      
               res.status(500).send({
                   message:"could not complete the process"
               })
-          }
-        })
+          
+        });
     
 
     }).catch(error=> {

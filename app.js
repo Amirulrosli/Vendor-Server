@@ -55,9 +55,64 @@ const Payment = db.payments;
 const Profile = db.tutorials;
 const Notification = db.notification;
 
+//Sync database and create administrator account
 
 db.sequelize.sync({force: false}).then(()=> {
-    console.log("Drop table and resync");
+
+  
+  const bcrypt = require('bcrypt')
+
+  const db = require("./app/models");
+  const AccountModel = require("./app/models/account.model");
+  const Account = db.account;
+
+  const IC_Number = "00-000000";
+  const rid = "ACC_"+IC_Number;
+  const username = "Administrator1001";
+  const oldPassword = "Administrator1001";
+  const role = "Administrator";
+  const email = "Administrator@email.com";
+  const last_Login = new Date();
+  var saltRounds = 12;
+
+
+  return new Promise (async (resolve)=> {
+    await  bcrypt.hash(oldPassword,saltRounds,function(err,hash){
+          password = hash;
+          createData(password)
+      })
+
+      function createData(data) {
+
+          var account = {
+              rid:rid,
+              username: username,
+              password: data,
+              email: email,
+              IC_Number: IC_Number,
+              last_Login: last_Login,
+              role:role
+          }
+
+          var array = [];
+
+          Account.findAll({where: {username: username}}).then(result=> {
+            array = result;
+             if (array.length == 0){
+              Account.create(account).then(data=> {
+                console.log("Successfully created account")
+              }).catch(err=> {
+                console.log("Cannot create user account")
+            });
+            }
+            console.log("Admin account is already existed")
+          });
+
+
+      }
+      console.log("Drop table and resync");
+  });
+   
 
 });
 
@@ -278,6 +333,7 @@ var upload = multer({
 
 const dbAtt = require("./app/models");
 const AttahcmentModel = require("./app/models/attachment.model");
+const { Console } = require("console");
 const Attachment = dbAtt.attachment;
 
 app.post('/uploadfile', upload.single('image'), (req,res,next)=> {

@@ -10,6 +10,9 @@ module.exports = (sequelize,Sequelize) => {
         },
         slot_Number: {
             type: Sequelize.STRING
+        },
+        taken: {
+            type:Sequelize.BOOLEAN,
         }
 
     });
