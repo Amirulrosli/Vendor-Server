@@ -70,7 +70,9 @@ exports.create = (req, res) => {
         slot: req.body.slot,
         slot_Price: req.body.slot_Price,
         phone: req.body.phone,
-        rent_Date: req.body.rent_Date
+        rent_Date: req.body.rent_Date,
+        address: req.body.address,
+        contract: req.body.contract
 
 
     };
