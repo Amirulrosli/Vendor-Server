@@ -42,6 +42,7 @@ const email = require("./app/routes/email.routes")(app);
 const account = require("./app/routes/account.routes")(app);
 const attachment = require("./app/routes/attachment.routes")(app);
 const relative = require("./app/routes/relative.routes")(app);
+const location = require("./app/routes/location.routes")(app);
 
 // set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;

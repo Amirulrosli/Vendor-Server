@@ -27,6 +27,7 @@ db.email = require("./email.model.js")(sequelize,Sequelize);
 db.account = require("./account.model.js")(sequelize, Sequelize);
 db.attachment = require("./attachment.model.js")(sequelize,Sequelize);
 db.relative = require('../models/Relative.model.js')(sequelize,Sequelize);
+db.location = require('../models/location.model.js')(sequelize,Sequelize);
 
 // db.tutorials.hasMany(db.payments, { as: "payments "});
 // db.payments.belongsTo(db.tutorials, {
