@@ -103,3 +103,16 @@ exports.deleteAll = (req,res)=> {
     })
 })
 };
+
+exports.findByIC = (req,res) => {
+    const IC_Number = req.params.IC_Number;
+
+
+    Relative.findAll({where: {IC_Number: IC_Number}}).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.status(500).send({
+            message: "error, Cannot Find Data"
+        })
+    })
+}

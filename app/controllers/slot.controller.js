@@ -13,12 +13,22 @@ exports.create = (req, res) => {
     //     return;
     // }
 
+    if(!req.body.location){
+        res.status(400).send({
+                    message: "Error, Content cannot be empty"
+                });
+                return;
+    }
+
 
 
     const notify = {
         id: req.body.id,
         rid: req.body.rid,
-        slot_Number: req.body.slot_Number
+        slot_Number: req.body.slot_Number,
+        slot_Price: req.body.slot_Price,
+        taken: req.body.taken,
+        location: req.body.location
     };
 
     Slot.create(notify).then(data=> {
@@ -61,6 +71,24 @@ exports.findOne = (req,res)=> {
     });
 
 };
+
+
+
+exports.findByLocation = (req,res)=> {
+
+    const location = req.params.location;
+
+    Slot.findAll({where: {location:location}}).then(data=> {
+        res.send(data);
+    })
+    .catch(err=> {
+        res.status(500).send({
+            message: "Error retrieving slot location"
+        });
+    });
+
+};
+
 
 exports.update = (req,res)=> {
 

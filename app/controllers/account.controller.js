@@ -22,19 +22,20 @@ exports.loginFunction = (req,res)=> {
         bcrypt.compare(password, storedPassword, function(error, result){
           if (result){
               res.send(data[0])
+              return;
           }
 
-          if (error){
+      
               res.status(500).send({
                   message:"could not complete the process"
               })
-          }
-        })
+          
+        });
     
 
     }).catch(error=> {
         res.status(500).send({
-            message: "Login Failed, cannot find username: "+username
+            message: "Login Failed, cannot find username"
         })
     })
 
@@ -78,7 +79,7 @@ exports.createAccount = (req,res)=> {
                 res.send(data)
             }).catch(err=> {
                 res.status(500).send({
-                    message: "Cannot create account with username: "+username
+                    message: "Cannot create account"
                 })
             });
 
@@ -86,25 +87,58 @@ exports.createAccount = (req,res)=> {
     });
 };
 
-exports.update = (req,res) => {
+exports.update = (req,res)=> {
+
+    const bcrypt = require('bcrypt')
 
     const id = req.params.id;
+    const oldPassword = req.body.password;
+    var saltRounds = 12;
+    var newPassword;
 
-    Account.update(req.body, {
-        where: {id: id}
-    }).then(result=> {
-        if (result == 1){
-            res.send("Successfully update user account")
-        } else {
-            res.send({
-                message: `Cannot Update with ID: ${id}`
+    Account.findAll({where:{id:id}}).then(result=> {
+        var password = result[0].dataValues.password;
+
+        if (password !== oldPassword){
+
+           
+
+            return new Promise (async (resolve)=> {
+                await  bcrypt.hash(oldPassword,saltRounds,function(err,hash){
+                newPassword = hash;
+                req.body.password = newPassword;
+                updateData(req.body)
+                })
             })
+
+
+        } else {
+            updateData(req.body)
         }
-    }).catch(error=> {
-        res.status(500).send({
-            message: `Cannot Update with ID: ${id} `
-        })
+        
     })
+    function updateData(data){
+
+        Account.update(data, {
+            where: {id:id}
+        }).then(result => {
+            if (result == 1) {
+                res.send({ 
+                    message: "Profile was updated successfully"
+                })
+            } else {
+                res.send( {
+                    message:`Cannot update profile with id=${id}.No Result Found`
+                })
+            }
+        }).catch (error => {
+            res.status(500).send({
+                message: "error when updating profile"
+            })
+        })
+
+    }
+
 };
 
 exports.findAll = (req,res)=> {
@@ -129,6 +163,30 @@ exports.findAllbyID = (req,res) => {
     });
 })
 };
+
+exports.findbyUsername = (req,res) => {
+    const username = req.params.username;
+
+    Account.findAll({where:{username:username}}).then(result=> {
+        res.send(result)
+    }).catch(error=> {
+        res.status(500).send({
+            message: "Error, please try again"
+        })
+    })
+}
+
+exports.findByIC = (req,res) => {
+    const IC_Number = req.params.IC_Number;
+
+    Account.findAll({where: {IC_Number: IC_Number}}).then(result=> {
+        res.send(result)
+    }).catch(error=> {
+        res.status(500).send({
+            message:"Cannot find IC Number in Account table"
+        })
+    })
+}
 
 exports.delete = (req,res) => {
 
