@@ -334,7 +334,6 @@ var upload = multer({
 
 const dbAtt = require("./app/models");
 const AttahcmentModel = require("./app/models/attachment.model");
-const { Console } = require("console");
 const Attachment = dbAtt.attachment;
 
 app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
