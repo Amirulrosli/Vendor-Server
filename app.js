@@ -43,6 +43,9 @@ const account = require("./app/routes/account.routes")(app);
 const attachment = require("./app/routes/attachment.routes")(app);
 const relative = require("./app/routes/relative.routes")(app);
 const location = require("./app/routes/location.routes")(app);
+const loginState = require("./app/routes/loginState.routes")(app);
+
+
 
 // set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;
@@ -58,7 +61,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
