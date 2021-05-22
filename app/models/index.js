@@ -29,6 +29,7 @@ db.attachment = require("./attachment.model.js")(sequelize,Sequelize);
 db.relative = require('../models/Relative.model.js')(sequelize,Sequelize);
 db.location = require('../models/location.model.js')(sequelize,Sequelize);
 db.loginState = require('../models/loginState.model.js')(sequelize,Sequelize);
+db.remark = require('../models/remarks.model')(sequelize,Sequelize);
 
 
 // db.tutorials.hasMany(db.payments, { as: "payments "});

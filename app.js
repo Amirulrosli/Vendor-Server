@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.get("/", (req, res) => {
 //   res.json({ message: "Server Works like a charm." });
 // });
-app.use("/attach-images", express.static(path.join("Attachment")))
+app.use("/Attachment", express.static(path.join("Attachment")))
 app.use(express.static('vendorManagement'))
 
 
@@ -43,6 +43,8 @@ const account = require("./app/routes/account.routes")(app);
 const attachment = require("./app/routes/attachment.routes")(app);
 const relative = require("./app/routes/relative.routes")(app);
 const location = require("./app/routes/location.routes")(app);
+const loginState = require("./app/routes/loginState.routes")(app);
+const remark = require("./app/routes/remark.routes")(app);
 
 // set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;
@@ -58,7 +60,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
@@ -66,6 +68,10 @@ db.sequelize.sync({force: false}).then(()=> {
   const db = require("./app/models");
   const AccountModel = require("./app/models/account.model");
   const Account = db.account;
+
+  const cb = require("./app/models");
+  const LoginModel = require("./app/models/loginState.model")
+  const Login = cb.loginState;
 
   const IC_Number = "00-000000";
   const rid = "ACC_"+IC_Number;
@@ -96,11 +102,27 @@ db.sequelize.sync({force: false}).then(()=> {
           }
 
           var array = [];
+          var accArray = [];
 
           Account.findAll({where: {username: username}}).then(result=> {
             array = result;
              if (array.length == 0){
               Account.create(account).then(data=> {
+                accArray = data;
+
+                var loginState = {
+                  id: accArray.dataValues.id,
+                  rid: accArray.dataValues.rid,
+                  login_state: false
+                }
+
+                Login.create(loginState).then(data=> {
+                 console.log("success login state updated") 
+                }).catch(error=> {
+                  console.log("cannot update login state")
+                })
+                
+
                 console.log("Successfully created account")
               }).catch(err=> {
                 console.log("Cannot create user account")
@@ -340,7 +362,7 @@ app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
   const file = req.file
   const vendor_rid = req.body.vendor_rid;
   const account_rid = req.body.account_rid;
-  const rid = req.body.vendor_rid;
+  const rid = req.body.rid;
   const link = file.path;
   const date_Uploaded = new Date();
 
