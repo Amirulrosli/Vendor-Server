@@ -8,7 +8,7 @@ module.exports = app => {
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.put("/id/:id",tcontroller.update)
-    router.get("/:rid", tcontroller.findAllbyRID)
+    router.get("/rid/:rid", tcontroller.findAllbyRID)
     
 
     app.use('/api/remark',router)

@@ -21,7 +21,7 @@ module.exports = (sequelize,Sequelize) => {
         },
         role:{
             type: Sequelize.STRING
-        }
+        },
     });
 
     return account;

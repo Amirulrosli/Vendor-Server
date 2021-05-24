@@ -29,7 +29,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   res.json({ message: "Server Works like a charm." });
 // });
 app.use("/Attachment", express.static(path.join("Attachment")))
+app.use("/ProfilePhoto", express.static(path.join("ProfilePhoto")))
 app.use(express.static('vendorManagement'))
+
+
+
+
+
+
+
+
 
 
 
@@ -45,12 +54,35 @@ const relative = require("./app/routes/relative.routes")(app);
 const location = require("./app/routes/location.routes")(app);
 const loginState = require("./app/routes/loginState.routes")(app);
 const remark = require("./app/routes/remark.routes")(app);
+const photo = require("./app/routes/photo.routes")(app);
+
+
+
+
+
+
+
+
+
+
 
 // set port, listen for requests (SET ROUTES)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+
+
 });
+
+
+
+
+
+
+
+
+
+
 
 const db = require("./app/models");
 const Op = db.Sequelize.Op;
@@ -58,9 +90,18 @@ const Payment = db.payments;
 const Profile = db.tutorials;
 const Notification = db.notification;
 
+
+
+
+
+
+
+
+
+
 //Sync database and create administrator account
 
-db.sequelize.sync({force: true}).then(()=> {
+db.sequelize.sync({force: false}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
@@ -146,6 +187,11 @@ const day = date.getDate();
 const month = date.getMonth()+1;
 const year = date.getFullYear();
 arrayPayment = [];
+
+
+
+
+
 
 // schedule.scheduleJob({hour: 00, minute: 00}, function(){ ------------------------------------------------
 
@@ -323,6 +369,27 @@ schedule.scheduleJob('*/1 * * * *',function(){
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //File Destination and name (Attach Function) Start -----------------------------------------------------
 
 //Storage Ref
@@ -397,6 +464,103 @@ app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
   res.status(500).send({
     message: error.message
   })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//File Destination and name (Profile Photo Function) Start -----------------------------------------------------
+
+//Storage Ref
+var storage1 = multer.diskStorage({
+  destination: function (req, file, cb){
+    cb(null,'ProfilePhoto')       //set localhost storage
+  },
+
+  filename: function (req,file, cb) {
+    cb(null, file.fieldname + '-' + Date.now()+'.'+fileExtension(file.originalname))
+  }
+})
+
+//Upload Setting
+
+var uploadPic = multer({
+  storage: storage1,
+
+  limits: {
+    fileSize: 10000000
+  },
+
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+      cb(new Error(('Please Upload JPG and PNG image')))
+    }
+
+    cb(undefined, true)
+  }
+});
+
+const dbPhoto = require("./app/models");
+const photoModel = require("./app/models/photo.model");
+const Photo = dbAtt.photo;
+
+app.post('/photo/uploadfile', uploadPic.single('image'), (req,res,next)=> {
+
+
+  const file = req.file
+  const rid = req.body.rid;
+  console.log(file)
+  const link = file.path;
+  const date_Uploaded = new Date();
+
+  if (!file){
+    const error = new Error('No File')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+
+  var attachment = {
+    rid: rid,
+    link: link,
+    date_Uploaded: date_Uploaded
+  }
+
+
+
+   Photo.create(attachment).then(data=> {
+      res.send(data)
+              
+      }).catch(error=> {
+      res.status(500).send({
+      message:"Failed to create attachment"
+      })
+  })
+
+},(error,req,res,next)=> {
+  res.status(500).send({
+    message: error.message
+  })
+
 })
 
 

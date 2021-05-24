@@ -156,7 +156,7 @@ exports.findAllbyRID = (req,res)=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
-            message:err.message
+            message:'error'
         })
     })
 };
