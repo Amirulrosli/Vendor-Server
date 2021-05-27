@@ -10,6 +10,7 @@ module.exports = app => {
     router.delete("/", tcontroller.deleteAll)
     router.delete("/rid/:rid", tcontroller.deleteByRid)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
+    router.get("/user/online", tcontroller.findOnline)
 
     
     app.use('/api/loginState', router)

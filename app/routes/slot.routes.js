@@ -12,7 +12,9 @@ module.exports = app => {
     router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.get("/slot/:slot_Number",tcontroller.findbySlot)
     router.get("/location/:location",tcontroller.findByLocation)
-    
+    router.get("/taken/:taken",tcontroller.findBytaken)
+    router.get("/available/:available",tcontroller.findByAvailable)
+
     app.use('/api/slots', router)
 
 

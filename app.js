@@ -99,7 +99,7 @@ const Notification = db.notification;
 
 
 
-//Sync database and create administrator account
+//Sync database and create administrator account-----------------------------------------------------------
 
 db.sequelize.sync({force: false}).then(()=> {
 

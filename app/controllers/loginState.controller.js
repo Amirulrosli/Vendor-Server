@@ -164,5 +164,16 @@ exports.findAllbyRID = (req,res)=> {
     })
 };
 
+exports.findOnline = (req,res)=> {
+    var state = true;
+    Login.findAll({where: {login_state:state}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message:err.message
+        })
+    })
+};
+
 
 

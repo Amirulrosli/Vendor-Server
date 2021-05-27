@@ -118,7 +118,7 @@ exports.update = (req,res)=> {
         
     })
     function updateData(data){
-
+        console.log(data)
         Account.update(data, {
             where: {id:id}
         }).then(result => {
@@ -222,6 +222,19 @@ exports.deleteAll = (req,res)=> {
     })
 })
 };
+
+exports.findAllbyRID = (req,res)=> {
+
+    const rid = req.params.rid;
+    Account.findAll({where: {rid: rid}}).then (data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message: err.message
+        });
+        
+    });
+}
 
 
 

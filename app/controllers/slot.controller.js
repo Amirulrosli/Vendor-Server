@@ -90,6 +90,7 @@ exports.findByLocation = (req,res)=> {
 };
 
 
+
 exports.update = (req,res)=> {
 
     const id = req.params.id;
@@ -201,5 +202,40 @@ exports.findbySlot = (req,res)=> {
         })
     })
 };
+
+exports.findBytaken = (req,res)=> {
+
+    const taken = req.params.taken;
+    var takenB = true;
+
+    Slot.findAll({where: {taken:takenB}}).then(data=> {
+        res.send(data);
+    })
+    .catch(err=> {
+        res.status(500).send({
+            message: "Error retrieving slot location"
+        });
+    });
+
+};
+
+
+exports.findByAvailable = (req,res)=> {
+
+    const taken = req.params.taken;
+    var takenB = false;
+
+    Slot.findAll({where: {taken:takenB}}).then(data=> {
+        res.send(data);
+    })
+    .catch(err=> {
+        res.status(500).send({
+            message: "Error retrieving slot location"
+        });
+    });
+
+};
+
+
 
 

@@ -11,6 +11,7 @@ module.exports = app => {
     router.delete("/", tcontroller.deleteAll)
     router.post("/login", tcontroller.loginFunction)
     router.put("/id/:id",tcontroller.update)
+    router.get("/rid/:rid",tcontroller.findAllbyRID)
 
     app.use('/api/account',router)
 

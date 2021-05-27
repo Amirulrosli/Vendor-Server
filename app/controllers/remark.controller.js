@@ -18,7 +18,7 @@ exports.create = (req, res) => {
     const notify = {
         rid: req.body.rid,
         account_rid: req.body.account_rid,
-        description: req.body.description,
+        Description: req.body.Description,
         date_Updated: newDate
     };
 
