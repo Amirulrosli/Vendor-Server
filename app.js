@@ -233,7 +233,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
 
         return new Promise (async (resolve)=> {
 
-          console.log(arrayPayment)
+        
       
           for(let i = 0; i < arrayPayment.length; i++){
 
@@ -250,7 +250,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
                 var latest_Payment_Date = arrayPayment[i].latest_Payment_Date;
                 var phone = arrayPayment[i].phone;
     
-                console.log(payment)
+              
   
                 if (payment[0].dataValues.send_Email == false){
 

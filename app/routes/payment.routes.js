@@ -10,6 +10,9 @@ module.exports = app => {
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
+    router.get("/deliver/deliver",tcontroller.findAllNotDelivered)
+    router.get("/sent/sent",tcontroller.findAllsend)
+    
     
     app.use('/api/payments', router)
 

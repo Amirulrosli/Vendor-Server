@@ -122,7 +122,19 @@ exports.deleteAll= (req,res)=> {
 };
 
 exports.findAllsend = (req,res)=> {
-    Payment.findAll({where: {sendEmail: false}}).then (data=> {
+    Payment.findAll({where: {send_Email: true}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message: err.message
+        });
+        
+    });
+
+};
+
+exports.findAllNotDelivered = (req,res)=> {
+    Payment.findAll({where: {send_Email: false}}).then (data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
