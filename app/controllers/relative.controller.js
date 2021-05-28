@@ -70,6 +70,30 @@ exports.findAllbyRID = (req,res) => {
 })
 };
 
+exports.findAllSpouse = (req,res) => {
+    const spouse = "spouse"
+
+    Relative.findAll({where: {relationship: spouse}}).then(result=> {
+        res.send(result)
+    }).catch(err=> {
+        res.status(500).send({
+        message: "Cannot find data with RID: "+rid 
+    });
+})
+};
+
+exports.findAllChild = (req,res) => {
+    const child = "child"
+
+    Relative.findAll({where: {relationship: child}}).then(result=> {
+        res.send(result)
+    }).catch(err=> {
+        res.status(500).send({
+        message: "Cannot find data with RID: "+rid 
+    });
+})
+};
+
 exports.delete = (req,res) => {
 
     const id = req.params.id;

@@ -202,6 +202,10 @@ schedule.scheduleJob('*/1 * * * *',function(){
   Profile.findAll().then(data=> {
     var profileData = data;
 
+    if (profileData.length !== 0){
+      
+    
+
     
       for(let i = 0; i<profileData.length; i++ ){
   
@@ -239,6 +243,9 @@ schedule.scheduleJob('*/1 * * * *',function(){
 
               Payment.findAll({where: {rid: arrayPayment[i].rid, due_Date: arrayPayment[i].latest_Due_Date }}).then(data=> {
                 var payment = data;
+
+                if(payment.length !== 0){
+               
 
                 var rid = arrayPayment[i].rid;
                 console.log(arrayPayment[i].rid)
@@ -358,14 +365,17 @@ schedule.scheduleJob('*/1 * * * *',function(){
                       console.log('Email sent:'+info.response)
                     }
                   })
-                }           
+                }   
+              }        
               })  
           }
         })
+      }
     }).catch(err=> {
       console.log(err)
       return;
     });
+  
 });
 
 
@@ -409,11 +419,11 @@ var upload = multer({
   storage: storage,
 
   limits: {
-    fileSize: 10000000
+    fileSize: 80000000
   },
 
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf|docx|doc|gif)$/)){
       cb(new Error(('Please Upload JPG and PNG image')))
     }
 
@@ -430,7 +440,9 @@ app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
   const vendor_rid = req.body.vendor_rid;
   const account_rid = req.body.account_rid;
   const rid = req.body.rid;
+  const name = req.body.name;
   const link = file.path;
+  const type = file.mimetype;
   const date_Uploaded = new Date();
 
   if (!file){
@@ -440,11 +452,13 @@ app.post('/uploadfile', upload.single('image'), (req,res,next)=> {
   }
 
   var attachment = {
+    name:name,
     vendor_rid: vendor_rid,
     account_rid: account_rid,
     rid: rid,
     link: link,
-    date_Uploaded: date_Uploaded
+    date_Uploaded: date_Uploaded,
+    type: file.mimetype
   }
 
   Attachment.create(attachment).then(data=> {

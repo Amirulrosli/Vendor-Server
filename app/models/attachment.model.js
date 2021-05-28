@@ -4,6 +4,9 @@ module.exports = (sequelize,Sequelize) => {
         rid: {
             type: Sequelize.STRING
         },
+        name:{
+            type: Sequelize.STRING
+        },
         vendor_rid:{
             type: Sequelize.STRING
         },
@@ -15,6 +18,9 @@ module.exports = (sequelize,Sequelize) => {
         },
         date_Uploaded: {
             type: Sequelize.DATE
+        },
+        type: {
+            type: Sequelize.STRING
         }
     });
 

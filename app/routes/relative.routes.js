@@ -9,6 +9,9 @@ module.exports = app => {
     router.delete("/", tcontroller.deleteAll)
     router.put("/:id",tcontroller.update)
     router.get("/IC/:IC_Number",tcontroller.findByIC)
+    router.get("/spouse/spouse",tcontroller.findAllSpouse)
+    router.get("/child/child",tcontroller.findAllChild)
+    
 
     app.use('/api/relative',router)
 
