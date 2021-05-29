@@ -31,6 +31,12 @@ db.location = require('../models/location.model.js')(sequelize,Sequelize);
 db.loginState = require('../models/loginState.model.js')(sequelize,Sequelize);
 db.remark = require('../models/remarks.model')(sequelize,Sequelize);
 db.photo = require('../models/photo.model')(sequelize,Sequelize);
+db.delAttachment = require('../delModel/delAttachment.model')(sequelize,Sequelize);
+db.delPayment = require('../delModel/delPayment.model')(sequelize,Sequelize);
+db.delPhoto = require('../delModel/delPhoto.model')(sequelize,Sequelize);
+db.delProfile = require('../delModel/delProfile.model')(sequelize,Sequelize);
+db.delRelative = require('../delModel/delRelative.model')(sequelize,Sequelize);
+db.delRemark = require('../delModel/delRemark.model')(sequelize,Sequelize);
 
 
 // db.tutorials.hasMany(db.payments, { as: "payments "});

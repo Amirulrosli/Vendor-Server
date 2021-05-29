@@ -56,6 +56,15 @@ const loginState = require("./app/routes/loginState.routes")(app);
 const remark = require("./app/routes/remark.routes")(app);
 const photo = require("./app/routes/photo.routes")(app);
 
+//Database for Deleted Records-----------------------------------------------
+
+const delAttachment = require("./app/delRoutes/delAttachment.routes")(app);
+const delPayment = require("./app/delRoutes/delPayment.routes")(app);
+const delPhoto = require("./app/delRoutes/delPhoto.routes")(app);
+const delProfile = require("./app/delRoutes/delProfile.routes")(app);
+const delRelative = require("./app/delRoutes/delRelative.routes")(app);
+const delRemark = require("./app/delRoutes/delRemark.routes")(app);
+
 
 
 
@@ -101,7 +110,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account-----------------------------------------------------------
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
 
   
   const bcrypt = require('bcrypt')

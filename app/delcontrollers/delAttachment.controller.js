@@ -1,9 +1,8 @@
 const db = require("../models");
-const attachmentModel = require("../models/attachment.model");
-const Attachment = db.attachment;
+const attachmentModel = require("../delModel/delAttachment.model");
+const Attachment = db.delAttachment;
 const Op = db.Sequelize.Op;
 const bcrypt = require('bcrypt');
-const fs = require('fs')
 
 exports.create = (req, res) => {
     
@@ -21,22 +20,21 @@ exports.create = (req, res) => {
 };
 
 
-
 exports.update = (req,res) => {
 
     const id = req.params.id;
 
     Attachment.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
-            res.send("Successfully update user account with rid: "+rid)
+            res.send("Successfully update user account with rid: ")
         } else {
             res.send({
-                message: "Cannot Update with RID: "+rid
+                message: "Cannot Update with RID: "
             })
         }
     }).catch(error=> {
         res.status(500).send({
-            message: "Cannot Update with RID: "+rid
+            message: "Cannot Update with RID: "
         })
     })
 };

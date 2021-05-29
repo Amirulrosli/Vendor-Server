@@ -1,6 +1,6 @@
 const db = require("../models");
-const photoModel = require("../models/photo.model");
-const Photo = db.photo;
+const photoModel = require("../delModel/delPhoto.model");
+const Photo = db.delPhoto;
 const Op = db.Sequelize.Op;
 const bcrypt = require('bcrypt');
 
@@ -121,6 +121,7 @@ const bodyParser = require('body-parser');
 //     })
 //   })
   
+
 exports.create = (req, res) => {
     
 
@@ -135,7 +136,6 @@ exports.create = (req, res) => {
     
 
 };
-
 
 
 
