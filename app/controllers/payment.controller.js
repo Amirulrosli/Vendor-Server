@@ -4,9 +4,31 @@ const Payment = db.payments;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
+
+ 
+    if (req.body.paymentID==null){
+
+        var rid = req.body.rid;
+
+        var date_Now = new Date();
+        let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
+        let time = date_Now.getHours()+""+date_Now.getMinutes()+""+date_Now.getSeconds();
+        var length = rid.length;
+        var sub = rid.length - 6;
+        var IC = rid.substring(sub,length)
+
+        req.body.paymentID = "P01_"+today+time;
+
+    }
+
+
+    var paymentID = req.body.paymentID;
+   
+
     
     const payment = {
         id: req.body.id,
+        paymentID: paymentID,
         rid: req.body.rid,
         payment_Date: req.body.payment_Date, 
         due_Date: req.body.due_Date,
@@ -151,6 +173,18 @@ exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
     Payment.findAll({where: {rid:rid}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message:err.message
+        })
+    })
+};
+
+exports.findAllbyPaymentID = (req,res)=> {
+
+    const paymentID = req.params.paymentID;
+    Payment.findAll({where: {paymentID:paymentID}}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

@@ -7,6 +7,7 @@ exports.create = (req, res) => {
     
     const payment = {
         id: req.body.id,
+        paymentID: req.body.paymentID,
         rid: req.body.rid,
         payment_Date: req.body.payment_Date, 
         due_Date: req.body.due_Date,
@@ -151,6 +152,18 @@ exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
     Payment.findAll({where: {rid:rid}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message:err.message
+        })
+    })
+};
+
+exports.findAllbyPaymentID = (req,res)=> {
+
+    const paymentID = req.params.paymentID;
+    Payment.findAll({where: {paymentID:paymentID}}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

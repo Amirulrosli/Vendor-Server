@@ -9,7 +9,7 @@ module.exports = app => {
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     // router.put("/update/:id",tcontroller.update)
-    // router.post("/",tcontroller.uploadFile)
+    router.post("/",tcontroller.create)
 
     app.use('/api/photo',router)
 

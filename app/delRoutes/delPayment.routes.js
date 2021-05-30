@@ -12,7 +12,7 @@ module.exports = app => {
     router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.get("/deliver/deliver",tcontroller.findAllNotDelivered)
     router.get("/sent/sent",tcontroller.findAllsend)
-    
+    router.get("/payment/:paymentID",tcontroller.findAllbyPaymentID)
     
     app.use('/api/delpayments', router)
 

@@ -5,6 +5,9 @@ module.exports = (sequelize,Sequelize) => {
             primaryKey: true,
             autoIncrement: true
         },
+        paymentID: {
+            type: Sequelize.STRING
+        },
         rid: {
             type: Sequelize.STRING
         },
