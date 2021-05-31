@@ -3,6 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const webpush = require('web-push')
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 var sql = require('mssql')
 var nodemailer = require('nodemailer')
 var schedule = require('node-schedule');
@@ -10,7 +14,9 @@ const Nexmo = require('nexmo')
 const app = express();
 const multer = require('multer')
 const fileExtension = require('file-extension')
-const path = require('path')
+const path = require('path');
+
+
 
 //cors
 var corsOptions = {
@@ -110,7 +116,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account-----------------------------------------------------------
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: true}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
