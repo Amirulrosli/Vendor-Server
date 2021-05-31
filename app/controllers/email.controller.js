@@ -31,8 +31,8 @@ exports.sendMailing = (req,res)=> {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'meerros810@gmail.com',
-          pass: 'lymuafvzvxrqyfgj'
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
         }
       });
 

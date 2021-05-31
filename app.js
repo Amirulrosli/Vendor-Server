@@ -23,6 +23,8 @@ var corsOptions = {
   origin: "http://localhost:4200"
 };
 
+
+
 var tutorialApi = require("./app/routes/tutorial.routes");
 
 app.use(cors(corsOptions));
@@ -129,12 +131,12 @@ db.sequelize.sync({force: true}).then(()=> {
   const LoginModel = require("./app/models/loginState.model")
   const Login = cb.loginState;
 
-  const IC_Number = "00-000000";
+  const IC_Number = process.env.ADMIN_IC;
   const rid = "ACC_"+IC_Number;
-  const username = "Administrator1001";
-  const oldPassword = "Administrator1001";
-  const role = "Administrator";
-  const email = "Administrator@email.com";
+  const username = process.env.ADMIN_USER;
+  const oldPassword = process.env.ADMIN_PASSWORD;
+  const role = process.env.ADMIN_ROLE;
+  const email = process.env.ADMIN_EMAIL;
   const last_Login = new Date();
   var saltRounds = 12;
 
@@ -279,8 +281,8 @@ schedule.scheduleJob('*/1 * * * *',function(){
   
                   const phoneNumber = "673"+phone;
                   const nexmo = new Nexmo({
-                    apiKey:'0c8e07ee',
-                    apiSecret:'HTK42qTNPOtLyBLH'
+                    apiKey: process.env.NEXMO_APIKEY,
+                    apiSecret: process.env.NEXMO_APISECRET
                   })
                   
                   const from = 'VMS';
@@ -293,8 +295,8 @@ schedule.scheduleJob('*/1 * * * *',function(){
                   var transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                      user: 'meerros810@gmail.com',
-                      pass: 'lymuafvzvxrqyfgj'
+                      user: process.env.EMAIL_USER,
+                      pass: process.env.EMAIL_PASS
                     }
                   });
   
@@ -329,7 +331,7 @@ schedule.scheduleJob('*/1 * * * *',function(){
                   );
                   
                   var mailOptions = {
-                    from: 'meerros810@gmail.com',
+                    from: process.env.EMAIL_USER,
                     to: email,
                     subject: '[Payment Overdue] Payment overdue for slot '+slot,
                     html: emailMessage
