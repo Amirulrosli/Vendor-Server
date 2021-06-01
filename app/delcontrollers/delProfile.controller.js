@@ -6,40 +6,6 @@ const Op = db.Sequelize.Op;
 var nodemailer = require('nodemailer')
 
 
-exports.sendMailing = (req,res)=> {
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'meerros810@gmail.com',
-          pass: 'lymuafvzvxrqyfgj'
-        }
-      });
-
-      console.log("Email:"+email)
-      
-      var mailOptions = {
-        from: 'meerros810@gmail.com',
-        to: email,
-        subject: '[Payment Overdue] Payment overdue for slot '+slot,
-        html: '<h1>Dear Valued Customer</h1><br><p>Your slot has an overdue of <p>'+slot_Price
-      }
-
-
-      transporter.sendMail(mailOptions, function(error,info){
-        if (error){
-          console.log(error)
-        } else {
-            console.log("Success: "+ info.response)
-        }
-
-    })
-
-};
-
-
-
-
 exports.create = (req, res) => {
     
     if (!req.body.name){
@@ -49,17 +15,10 @@ exports.create = (req, res) => {
         return;
     }
 
-    date_Now = new Date();
-    let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
-
-    var rid = "V_01"+today+"0000"+req.body.IC_Number;
-
-     
-
 
     const profile = {
         id: req.body.id,
-        rid: rid,
+        rid: req.body.rid,
         name: req.body.name,
         IC_Number: req.body.IC_Number,
         email: req.body.email,
