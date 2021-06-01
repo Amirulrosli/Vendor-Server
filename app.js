@@ -118,7 +118,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account-----------------------------------------------------------
 
-db.sequelize.sync({force: true}).then(()=> {
+db.sequelize.sync({force: false}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
