@@ -5,6 +5,7 @@ module.exports = app => {
     router.post("/",tcontroller.createRelative)
     router.get("/",tcontroller.findAll)
     router.get("/:rid",tcontroller.findAllbyRID)
+    router.get("/:id",tcontroller.findOne)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.put("/:id",tcontroller.update)

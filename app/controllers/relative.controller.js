@@ -5,6 +5,21 @@ const Op = db.Sequelize.Op;
 
 
 
+exports.findOne = (req,res)=> {
+
+    const id = req.params.id;
+
+    Relative.findByPk(id).then(data=> {
+        res.send(data);
+    })
+    .catch(err=> {
+        res.status(500).send({
+            message: "Error retrieving relative with id= "
+        });
+    });
+
+};
+
 exports.createRelative = (req,res)=> {
 
     const rid = req.body.rid;

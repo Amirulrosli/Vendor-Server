@@ -12,7 +12,6 @@ module.exports = app => {
     router.delete("/", tcontroller.deleteAll)
     router.get("/IC/:IC_Number", tcontroller.findAllbyIC)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
-    router.post("/send",tcontroller.sendMailing)
 
     app.use('/api/delprofiles', router)
 
