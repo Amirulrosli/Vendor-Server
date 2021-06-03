@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1618903309103,
+  "timestamp": 1622678195734,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,12 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.6937427846a09942225f.js",
+        "/main.741e16f44b64683aa70f.js",
         "/manifest.webmanifest",
         "/polyfills.8c151b8375e767ff858f.js",
         "/runtime.0e49e2b53282f40c8925.js",
-        "/styles.de3e7e79cfc747bbd8bf.css"
+        "/scripts.fcb83d1cd631d5608667.js",
+        "/styles.62fa804b16f64e001749.css"
       ],
       "patterns": []
     },
@@ -29,6 +30,9 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/AISimple.png",
+        "/assets/Jabatan-Bandaran-Logo.png",
+        "/assets/VMIS-background.jpg",
         "/assets/css/animate.css",
         "/assets/css/animation/animation-custom.css",
         "/assets/css/bootstrap-select/bootstrap-select.css",
@@ -205,14 +209,22 @@
         "/assets/js/wizard/jquery.bootstrap.wizard.min.js",
         "/assets/js/wizard/wizard-active.js",
         "/assets/js/wow.min.js",
+        "/assets/logged in.jpg",
+        "/assets/not found.gif",
+        "/assets/profile-1.png",
+        "/assets/profile.jpg",
         "/assets/profile.png",
-        "/assets/result.gif"
+        "/assets/result.gif",
+        "/assets/welcome.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/AISimple.png": "5a8063ce3a38b7ec1981f9a2e31a4e8ce31050a2",
+    "/assets/Jabatan-Bandaran-Logo.png": "63e882782f7ad0db8ddde830e5e71c8cad0223d1",
+    "/assets/VMIS-background.jpg": "53912c6b56dd5ef820d38ed4d9949ac00fab7226",
     "/assets/css/animate.css": "574473bbff323cb9aa6c570e9d510456867376df",
     "/assets/css/animation/animation-custom.css": "055d182439efe9d3ddfe279757226f6466652282",
     "/assets/css/bootstrap-select/bootstrap-select.css": "eeb280e174c1f1189c10a87dd895851b7b487704",
@@ -389,15 +401,21 @@
     "/assets/js/wizard/jquery.bootstrap.wizard.min.js": "8d16e6952c78cfe91aa7035797a3cb2e6af0be1a",
     "/assets/js/wizard/wizard-active.js": "f64c33c60d20eb3f21625811210b8871c9801ed1",
     "/assets/js/wow.min.js": "4ec798a81020992a75f08b37584fb5314ac8516f",
-    "/assets/profile.png": "4446e4aa858b60173b32864fcaa2d16a396b53ec",
+    "/assets/logged in.jpg": "6452683c5b41aa9268820d41cd4ade9ade5fff2a",
+    "/assets/not found.gif": "05c2b81ead69e9258c714b2c767ff2146db0a6d4",
+    "/assets/profile-1.png": "4446e4aa858b60173b32864fcaa2d16a396b53ec",
+    "/assets/profile.jpg": "32cd175cf42bfebfbeec1c0a26f5ba6cb4b2344b",
+    "/assets/profile.png": "845b4960dc161e52ab8a97c03cfa19c200a2bfc4",
     "/assets/result.gif": "c070e61531e569719871d0cbf76090e5ab6b8a2b",
+    "/assets/welcome.png": "166cac6ae63a95bf4706a65783a11af994a44aaa",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "8821e8edde1e22d177fd6d4d3b9a99eb480dfff3",
-    "/main.6937427846a09942225f.js": "304fadeb5b6eb175f8ea7ed95ea443769a521f5c",
+    "/index.html": "c03752d69ea643873d03a3e7509e42cdd3d94532",
+    "/main.741e16f44b64683aa70f.js": "f6ac15a6a6b79dc5ca0fac0d1dea58512f0d015c",
     "/manifest.webmanifest": "31e191df0ce258c7323c33f8522976295333a37c",
     "/polyfills.8c151b8375e767ff858f.js": "763cd3b34dfa4600ebb9d9588ec7116988e98920",
     "/runtime.0e49e2b53282f40c8925.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/styles.de3e7e79cfc747bbd8bf.css": "750c17d97ff1e6c23d8d1cd7157dc77bf3928e52"
+    "/scripts.fcb83d1cd631d5608667.js": "ba7649af8fdbc1b1ce5d96e123c8e46056c785cc",
+    "/styles.62fa804b16f64e001749.css": "8953ff0b5dabd22fd8a6c9cad49aaede2172ae0c"
   },
   "navigationUrls": [
     {

@@ -16,16 +16,15 @@ const multer = require('multer')
 const fileExtension = require('file-extension')
 const path = require('path');
 
-
-
 //cors
 var corsOptions = {
-  origin: "http://localhost:4200"
+  origin: "http://localhost:4200",
 };
 
 
 
 var tutorialApi = require("./app/routes/tutorial.routes");
+var paymentApi = require("./app/routes/payment.routes")
 
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json
@@ -38,17 +37,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // });
 app.use("/Attachment", express.static(path.join("Attachment")))
 app.use("/ProfilePhoto", express.static(path.join("ProfilePhoto")))
+app.use("/return", express.static(path.join("returnHtml.html")))
 app.use(express.static('vendorManagement'))
-
-
-
-
-
-
-
-
-
-
 
 
 const api = require("./app/routes/tutorial.routes")(app);
@@ -75,12 +65,10 @@ const delRemark = require("./app/delRoutes/delRemark.routes")(app);
 
 
 
-
-
-
-
-
-
+app.get('/*',(req,res)=> {
+  res.sendFile(__dirname+'/vendorManagement/index.html')
+  
+})
 
 
 // set port, listen for requests (SET ROUTES)
@@ -91,16 +79,6 @@ app.listen(PORT, () => {
 
 });
 
-
-
-
-
-
-
-
-
-
-
 const db = require("./app/models");
 const Op = db.Sequelize.Op;
 const Payment = db.payments;
@@ -108,7 +86,23 @@ const Profile = db.tutorials;
 const Notification = db.notification;
 
 
+var drop;
 
+if (process.env.DROP == "true"){
+  drop = true;
+} else {
+  drop = false;
+}
+
+var auto;
+
+if (process.env.AUTO_EMAIL=="true"){
+
+  auto = true;
+
+} else {
+  auto = false;
+}
 
 
 
@@ -118,7 +112,7 @@ const Notification = db.notification;
 
 //Sync database and create administrator account-----------------------------------------------------------
 
-db.sequelize.sync({force: false}).then(()=> {
+db.sequelize.sync({force: drop}).then(()=> {
 
   
   const bcrypt = require('bcrypt')
@@ -215,6 +209,10 @@ arrayPayment = [];
 schedule.scheduleJob('*/1 * * * *',function(){
 
   console.log("Server will execute gmail every 12:00")
+
+if (auto){
+
+  console.log("Automated notification is enabled ["+auto+"]")
 
   Profile.findAll().then(data=> {
     var profileData = data;
@@ -392,7 +390,10 @@ schedule.scheduleJob('*/1 * * * *',function(){
       console.log(err)
       return;
     });
-  
+
+} else {
+  console.log(" Automated Notification is disabled ["+auto+"]")
+}
 });
 
 
