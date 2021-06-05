@@ -138,6 +138,32 @@ exports.create = (req, res) => {
 };
 
 
+exports.update = (req,res)=> {
+
+    const id = req.params.id;
+    
+    Photo.update(req.body, {
+        where: {id:id}
+    }).then(result => {
+        if (result == 1) {
+            res.send({ 
+                message: "photo was updated successfully"
+            })
+        } else {
+            res.send( {
+                message:`Cannot update photo with id=${id}.No Result Found`
+            })
+        }
+    }).catch (error => {
+        res.status(500).send({
+            message: "error when updating Photo"
+        })
+    })
+
+
+};
+
+
 
 exports.findAll = (req,res)=> {
 

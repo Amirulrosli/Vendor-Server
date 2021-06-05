@@ -8,7 +8,7 @@ module.exports = app => {
     router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
-    // router.put("/update/:id",tcontroller.update)
+    router.put("/update/:id",tcontroller.update)
     router.post("/",tcontroller.create)
 
     app.use('/api/photo',router)

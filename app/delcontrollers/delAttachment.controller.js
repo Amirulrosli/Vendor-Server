@@ -20,23 +20,29 @@ exports.create = (req, res) => {
 };
 
 
-exports.update = (req,res) => {
+exports.update = (req,res)=> {
 
     const id = req.params.id;
-
-    Attachment.update(req.body, {where: {id: id}}).then(result=> {
-        if (result == 1){
-            res.send("Successfully update user account with rid: ")
+    
+    Attachment.update(req.body, {
+        where: {id:id}
+    }).then(result => {
+        if (result == 1) {
+            res.send({ 
+                message: "attachment was updated successfully"
+            })
         } else {
-            res.send({
-                message: "Cannot Update with RID: "
+            res.send( {
+                message:`Cannot update attachment with id=${id}.No Result Found`
             })
         }
-    }).catch(error=> {
+    }).catch (error => {
         res.status(500).send({
-            message: "Cannot Update with RID: "
+            message: "error when updating attachment"
         })
     })
+
+
 };
 
 exports.findAll = (req,res)=> {

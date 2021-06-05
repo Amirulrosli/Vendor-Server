@@ -28,15 +28,15 @@ exports.update = (req,res) => {
 
     Attachment.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
-            res.send("Successfully update user account with rid: "+rid)
+            res.send("Successfully update attachment with rid: ")
         } else {
             res.send({
-                message: "Cannot Update with RID: "+rid
+                message: "Cannot Update attachment with RID: "
             })
         }
     }).catch(error=> {
         res.status(500).send({
-            message: "Cannot Update with RID: "+rid
+            message: "Cannot Update with RID: "
         })
     })
 };

@@ -137,6 +137,26 @@ exports.create = (req, res) => {
 };
 
 
+exports.update = (req,res) => {
+
+    const id = req.params.id;
+
+    Photo.update(req.body, {where: {id: id}}).then(result=> {
+        if (result == 1){
+            res.send("Successfully update photo with rid: ")
+        } else {
+            res.send({
+                message: "Cannot Update photo with RID: "
+            })
+        }
+    }).catch(error=> {
+        res.status(500).send({
+            message: "Cannot Update with RID: "
+        })
+    })
+};
+
+
 
 
 exports.findAll = (req,res)=> {
