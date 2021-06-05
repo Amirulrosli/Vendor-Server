@@ -2,6 +2,7 @@ const db = require("../models");
 const AccountModel = require("../models/account.model");
 const Account = db.account;
 const Op = db.Sequelize.Op;
+const storage = require('node-sessionstorage')
 
 
 exports.loginFunction = (req,res)=> {
@@ -21,6 +22,8 @@ exports.loginFunction = (req,res)=> {
     
         bcrypt.compare(password, storedPassword, function(error, result){
           if (result){
+
+            storage.setItem('auth',true)
               res.send(data[0])
               return;
           }

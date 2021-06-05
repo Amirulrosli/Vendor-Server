@@ -2,7 +2,7 @@ const db = require("../models");
 const loginStateModel = require("../models/loginState.model");
 const Login = db.loginState;
 const Op = db.Sequelize.Op;
-
+const storage = require('node-sessionstorage')
 
 exports.create = (req, res) => {
     
@@ -68,6 +68,11 @@ exports.findOne = (req,res)=> {
 exports.update = (req,res)=> {
 
     const id = req.params.id;
+
+
+    if (req.body.loginState==false){
+        storage.setItem('auth',false)
+    }
     
     Login.update(req.body, {
         where: {id:id}

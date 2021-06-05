@@ -15,10 +15,11 @@ const app = express();
 const multer = require('multer')
 const fileExtension = require('file-extension')
 const path = require('path');
+const session = require('node-sessionstorage')
 
 //cors
 var corsOptions = {
-  origin: "http://localhost:4200",
+  origin: "http://localhost:4200"
 };
 
 
@@ -41,12 +42,57 @@ app.use("/return", express.static(path.join("returnHtml.html")))
 app.use(express.static('vendorManagement'))
 
 
+
+// app.get('/api/account/*',(req,res)=> {
+//   console.log(req.params[0])
+//   if (req.params[0]=="login"){
+
+//     if (req.body.username == undefined){
+//       res.redirect('/return')
+//     }
+
+//     else {
+//      return req.next();
+//     }
+//   } else {
+
+//     var auth = session.getItem('auth')
+//     console.log(auth)
+
+//     if (auth){
+//       return req.next();
+//     } else {
+//       res.redirect('/return')
+//     }
+  
+//   }
+
+  
+// })
+
+
+const account = require("./app/routes/account.routes")(app);
+
+// app.get('/api/*',(req,res)=> {
+
+//   var auth = session.getItem('auth')
+//   console.log(auth)
+//   if (auth){
+//     return req.next()
+//   } else {
+//     res.redirect('/return')
+//   }
+
+
+ 
+  
+// })
+
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 const notification = require("./app/routes/notification.routes")(app);
 const slot = require("./app/routes/slot.routes")(app);
 const email = require("./app/routes/email.routes")(app);
-const account = require("./app/routes/account.routes")(app);
 const attachment = require("./app/routes/attachment.routes")(app);
 const relative = require("./app/routes/relative.routes")(app);
 const location = require("./app/routes/location.routes")(app);
