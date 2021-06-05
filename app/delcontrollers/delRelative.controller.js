@@ -34,7 +34,7 @@ exports.update = (req,res) => {
     Relative.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
             res.send({
-                message:"Successfully update user account with rid: "})
+                message:"Successfully update relative with rid: "})
         } else {
             res.send({
                 message: "Cannot Update with RID: "

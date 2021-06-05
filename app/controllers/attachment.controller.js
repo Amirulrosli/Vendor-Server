@@ -28,7 +28,9 @@ exports.update = (req,res) => {
 
     Attachment.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
-            res.send("Successfully update attachment with rid: ")
+            res.send({ 
+                message: "Attachment was updated successfully"
+            })
         } else {
             res.send({
                 message: "Cannot Update attachment with RID: "

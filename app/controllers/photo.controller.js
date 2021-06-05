@@ -143,7 +143,9 @@ exports.update = (req,res) => {
 
     Photo.update(req.body, {where: {id: id}}).then(result=> {
         if (result == 1){
-            res.send("Successfully update photo with rid: ")
+            res.send({ 
+                message: "Photo was updated successfully"
+            })
         } else {
             res.send({
                 message: "Cannot Update photo with RID: "
