@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 exports.create = (req, res) => {
 
  
-    if (req.body.paymentID==null){
+    if (req.body.paymentID==null || !req.body.paymentID){
 
         var rid = req.body.rid;
 

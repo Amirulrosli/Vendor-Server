@@ -49,11 +49,16 @@ exports.create = (req, res) => {
         return;
     }
 
-    date_Now = new Date();
-    let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
 
-    var rid = "V_01"+today+"0000"+req.body.IC_Number;
+    if (req.body.rid==null || !req.body.rid){
 
+        date_Now = new Date();
+        let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
+    
+        var rid = "V_01"+today+"0000"+req.body.IC_Number;
+    
+
+    }
      
 
 
