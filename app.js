@@ -16,8 +16,10 @@ const multer = require('multer')
 const fileExtension = require('file-extension')
 const path = require('path');
 const session = require('node-sessionstorage')
+var fs = require("fs-extra");
 
-//cors
+//cors -- allow request from: -------------------------------------------------------
+
 var corsOptions = {
   origin: "http://localhost:4200"
 };
@@ -32,10 +34,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 // // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-// simple route
-// app.get("/", (req, res) => {
-//   res.json({ message: "Server Works like a charm." });
-// });
 app.use("/Attachment", express.static(path.join("Attachment")))
 app.use("/ProfilePhoto", express.static(path.join("ProfilePhoto")))
 app.use("/return", express.static(path.join("returnHtml.html")))
@@ -43,51 +41,8 @@ app.use(express.static('vendorManagement'))
 
 
 
-// app.get('/api/account/*',(req,res)=> {
-//   console.log(req.params[0])
-//   if (req.params[0]=="login"){
-
-//     if (req.body.username == undefined){
-//       res.redirect('/return')
-//     }
-
-//     else {
-//      return req.next();
-//     }
-//   } else {
-
-//     var auth = session.getItem('auth')
-//     console.log(auth)
-
-//     if (auth){
-//       return req.next();
-//     } else {
-//       res.redirect('/return')
-//     }
-  
-//   }
-
-  
-// })
-
 
 const account = require("./app/routes/account.routes")(app);
-
-// app.get('/api/*',(req,res)=> {
-
-//   var auth = session.getItem('auth')
-//   console.log(auth)
-//   if (auth){
-//     return req.next()
-//   } else {
-//     res.redirect('/return')
-//   }
-
-
- 
-  
-// })
-
 const api = require("./app/routes/tutorial.routes")(app);
 const payment = require("./app/routes/payment.routes")(app);
 const notification = require("./app/routes/notification.routes")(app);
@@ -99,6 +54,7 @@ const location = require("./app/routes/location.routes")(app);
 const loginState = require("./app/routes/loginState.routes")(app);
 const remark = require("./app/routes/remark.routes")(app);
 const photo = require("./app/routes/photo.routes")(app);
+const backup = require("./app/routes/backup.routes")(app);
 
 //Database for Deleted Records-----------------------------------------------
 
@@ -159,7 +115,6 @@ if (process.env.AUTO_EMAIL=="true"){
 //Sync database and create administrator account-----------------------------------------------------------
 
 db.sequelize.sync({force: drop}).then(()=> {
-
   
   const bcrypt = require('bcrypt')
 
@@ -348,26 +303,25 @@ if (auto){
 
                   let emailMessage = (
                     '<h3>Dear '+ name +',</h3>'+
+                    '<p>Account ID:'+rid+'<p>'+
                     '<p>Just for a reminder, your payment is now overdue, Please Refer to the table below for your upcoming payment: <p>'+
 
                     
                     '<table style="width:100%; margin: 0 auto;font-size: 14px; color: black; border: 1px solid gray">' +
                     '<thead>' +
-                    '<th style="border: 1px solid gray" > Account ID </th>' +
-                    '<th style="border: 1px solid gray"> Vendor Name</th>'  +
-                    '<th style="border: 1px solid gray"> Slot Number </th>'  +
-                    '<th style="border: 1px solid gray"> latest payment made </th>'  +
-                    '<th style="border: 1px solid gray; color: red"> Total Overdue Amount </th>'  +
-                    '<th style="border: 1px solid gray"> Due Date </th>'  +
+                    '<th style="border: 1px solid gray; padding:8px 2px;"> Vendor Name</th>'  +
+                    '<th style="border: 1px solid gray;padding:8px 2px;"> Slot Number </th>'  +
+                    '<th style="border: 1px solid gray;padding:8px 2px;"> latest payment made </th>'  +
+                    '<th style="border: 1px solid gray;padding:8px 2px; color: red"> Total Overdue Amount </th>'  +
+                    '<th style="border: 1px solid gray;padding:8px 2px;"> Due Date </th>'  +
                     '</thead>' +
                     
                     '<tr style="text-align: center;">' +
-                    '<td style="border: 1px solid gray">' + rid + '</td>' +
-                    '<td style="border: 1px solid gray">' + name + '</td>' +
-                    '<td style="border: 1px solid gray">' + slot + '</td>' +
-                    '<td style="border: 1px solid gray">' + latest_Payment_Date + '</td>' +
-                    '<td style="border: 1px solid gray; color: red">$' + slot_Price + '</td>' +
-                    '<td style="border: 1px solid gray">' + latest_Due_Date + '</td>' +
+                    '<td style="border: 1px solid gray;padding:8px 2px;">' + name + '</td>' +
+                    '<td style="border: 1px solid gray;padding:8px 2px;">' + slot + '</td>' +
+                    '<td style="border: 1px solid gray;padding:8px 2px;">' + latest_Payment_Date + '</td>' +
+                    '<td style="border: 1px solid gray;padding:8px 2px; color: red">$' + slot_Price + '</td>' +
+                    '<td style="border: 1px solid gray;padding:8px 2px;">' + latest_Due_Date + '</td>' +
                      
                     '</tr>'+
                     '</table>'+
