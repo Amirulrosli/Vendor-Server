@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1623224362982,
+  "timestamp": 1623225040241,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -72,6 +72,7 @@
         "/assets/css/themesaller-forms.css",
         "/assets/css/wave/button.css",
         "/assets/css/wave/waves.min.css",
+        "/assets/favicon.png",
         "/assets/fonts/FontAwesome.otf",
         "/assets/fonts/fontawesome-webfont.eot",
         "/assets/fonts/fontawesome-webfont.svg",
@@ -264,6 +265,7 @@
     "/assets/css/themesaller-forms.css": "e710dc5a5a51a508da13966fd9169a88bd472a15",
     "/assets/css/wave/button.css": "c0fe1bb553a82124c68a23a18ce4d8ad1ac0658d",
     "/assets/css/wave/waves.min.css": "304ca87bd9e3e250d25166a0f989de72de3bf14b",
+    "/assets/favicon.png": "ca0cca0105c70b229028d158ba685ceacd40b151",
     "/assets/fonts/FontAwesome.otf": "42c179eef588854b5ec151bcf6a3f58aa8b79b11",
     "/assets/fonts/fontawesome-webfont.eot": "986eed8dca049714e43eeebcb3932741a4bec76d",
     "/assets/fonts/fontawesome-webfont.svg": "b06b5c8f67fd632cdc62a33b62ae4f74194131b3",
@@ -409,7 +411,7 @@
     "/assets/result.gif": "c070e61531e569719871d0cbf76090e5ab6b8a2b",
     "/assets/welcome.png": "166cac6ae63a95bf4706a65783a11af994a44aaa",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "bab25d113e5baeca854ababc81ac84986bccab03",
+    "/index.html": "2c70038c9b42500a03f302eb09b8f2a696bbf290",
     "/main.705a10e959476819da44.js": "c3828003b05c885ade3881cc6dce2908b13fde46",
     "/manifest.webmanifest": "31e191df0ce258c7323c33f8522976295333a37c",
     "/polyfills.8c151b8375e767ff858f.js": "763cd3b34dfa4600ebb9d9588ec7116988e98920",
