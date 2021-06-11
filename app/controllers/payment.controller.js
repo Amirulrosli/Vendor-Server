@@ -1,3 +1,4 @@
+
 const db = require("../models");
 const tutorialModel = require("../models/Payment.model");
 const Payment = db.payments;
@@ -185,6 +186,26 @@ exports.findAllbyPaymentID = (req,res)=> {
 
     const paymentID = req.params.paymentID;
     Payment.findAll({where: {paymentID:paymentID}}).then(data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message:err.message
+        })
+    })
+};
+
+
+exports.findAllbyPaymentDate = (req,res)=> {
+
+    const startDate = req.params.startDate;
+    const endDate = req.params.endDate;
+    console.log(startDate+"  "+endDate)
+
+    Payment.findAll({where: {
+        payment_Date:{
+            [Op.between]: [startDate, endDate],
+        }
+    }}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

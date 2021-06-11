@@ -13,6 +13,7 @@ module.exports = app => {
     router.get("/deliver/deliver",tcontroller.findAllNotDelivered)
     router.get("/sent/sent",tcontroller.findAllsend)
     router.get("/payment/:paymentID",tcontroller.findAllbyPaymentID)
+    router.get("/find/:startDate/:endDate",tcontroller.findAllbyPaymentDate)
     
     app.use('/api/payments', router)
 

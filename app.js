@@ -21,7 +21,7 @@ var fs = require("fs-extra");
 //cors -- allow request from: -------------------------------------------------------
 
 var corsOptions = {
-  origin: "http://localhost:4200"
+  origin: process.env.ORIGIN
 };
 
 
@@ -441,7 +441,7 @@ var upload = multer({
   },
 
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf|docx|doc|gif)$/)){
+    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf|gif)$/)){
       cb(new Error(('Please Upload JPG and PNG image')))
     }
 
