@@ -342,7 +342,7 @@ if (auto){
   
                       
                       const notify = {
-                        rid: rid,
+                        rid: "ACC_"+process.env.ADMIN_IC,
                         title: 'User Reminder Notification', 
                         description: 'Automated Email has been sent to '+name+'\n Email: '+email+'\n Account ID: '+rid,
                         category: 'Automated Email Reminder',
