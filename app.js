@@ -264,7 +264,6 @@ if (auto){
                
 
                 var rid = arrayPayment[i].rid;
-                console.log(arrayPayment[i].rid)
                 var email = arrayPayment[i].email;
                 var name = arrayPayment[i].name;
                 var slot = arrayPayment[i].slot;
