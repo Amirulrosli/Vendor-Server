@@ -41,6 +41,8 @@ exports.sendMailing = (req,res)=> {
 
 
 exports.create = (req, res) => {
+
+    var rid = req.body.rid;
     
     if (!req.body.name){
         res.status(400).send({
@@ -55,7 +57,7 @@ exports.create = (req, res) => {
         date_Now = new Date();
         let today = date_Now.getDate()+""+(date_Now.getMonth()+1)+""+date_Now.getFullYear();
     
-        var rid = "V_01"+today+"0000"+req.body.IC_Number;
+        rid = "V_01"+today+"0000"+req.body.IC_Number;
     
 
     }

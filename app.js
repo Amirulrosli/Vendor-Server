@@ -21,7 +21,7 @@ var fs = require("fs-extra");
 //cors -- allow request from: -------------------------------------------------------
 
 var corsOptions = {
-  origin: process.env.ORIGIN
+  origin: "http://localhost:4200"
 };
 
 
