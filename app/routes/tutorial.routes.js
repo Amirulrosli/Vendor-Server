@@ -13,6 +13,7 @@ module.exports = app => {
     router.get("/IC/:IC_Number", tcontroller.findAllbyIC)
     router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.post("/send",tcontroller.sendMailing)
+    router.get("/ref/:ref_No",tcontroller.findAllbyReference)
 
     app.use('/api/profiles', router)
 

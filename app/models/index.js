@@ -37,6 +37,7 @@ db.delPhoto = require('../delModel/delPhoto.model')(sequelize,Sequelize);
 db.delProfile = require('../delModel/delProfile.model')(sequelize,Sequelize);
 db.delRelative = require('../delModel/delRelative.model')(sequelize,Sequelize);
 db.delRemark = require('../delModel/delRemark.model')(sequelize,Sequelize);
+db.delStatus = require('../delModel/delStatus.model')(sequelize,Sequelize);
 
 
 // db.tutorials.hasMany(db.payments, { as: "payments "});

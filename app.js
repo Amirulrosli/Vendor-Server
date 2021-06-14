@@ -21,7 +21,7 @@ var fs = require("fs-extra");
 //cors -- allow request from: -------------------------------------------------------
 
 var corsOptions = {
-  origin: "http://localhost:4200"
+  origin: process.env.ORIGIN
 };
 
 
@@ -64,7 +64,7 @@ const delPhoto = require("./app/delRoutes/delPhoto.routes")(app);
 const delProfile = require("./app/delRoutes/delProfile.routes")(app);
 const delRelative = require("./app/delRoutes/delRelative.routes")(app);
 const delRemark = require("./app/delRoutes/delRemark.routes")(app);
-
+const delStatus = require("./app/delRoutes/delStatus.routes")(app);
 
 
 app.get('/*',(req,res)=> {
@@ -74,7 +74,7 @@ app.get('/*',(req,res)=> {
 
 
 // set port, listen for requests (SET ROUTES)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 80;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 

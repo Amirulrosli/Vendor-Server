@@ -19,6 +19,7 @@ exports.create = (req, res) => {
     const profile = {
         id: req.body.id,
         rid: req.body.rid,
+        ref_No: req.body.ref_No,
         name: req.body.name,
         IC_Number: req.body.IC_Number,
         email: req.body.email,
@@ -186,6 +187,25 @@ exports.findAllbyRID = (req,res)=> {
 
     const rid = req.params.rid;
     Profile.findAll({where: {rid: rid}}).then (data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message: err.message
+        });
+        
+    });
+}
+
+
+exports.findAllbyReference = (req,res)=> {
+
+
+    const ref_No = req.params.ref_No;
+    console.log(ref_No)
+       
+   
+
+    Profile.findAll({where:  {ref_No: ref_No}}).then (data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({
