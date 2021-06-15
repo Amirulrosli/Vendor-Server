@@ -250,7 +250,7 @@ exports.findAllbyReference = (req,res)=> {
  console.log(ref_No)
     
 
-    Profile.findAll({where: {ref_No: ref_No}}).then (data=> {
+    Profile.findAll({where: {ref_No: ref_No}}).then(data=> {
         res.send(data)
     }).catch(err=> {
         res.status(500).send({

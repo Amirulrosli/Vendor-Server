@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.post("/",tcontroller.create)
     router.get("/",tcontroller.findAll)
-    router.get("/:rid",tcontroller.findAllbyRID)
+    router.get("/rid/:rid",tcontroller.findAllbyRID)
     router.delete("/:id",tcontroller.delete)
     router.delete("/", tcontroller.deleteAll)
     router.put("/update/:id",tcontroller.update)
