@@ -207,9 +207,9 @@ arrayPayment = [];
 
 // schedule.scheduleJob({hour: 00, minute: 00}, function(){ ------------------------------------------------
 
-schedule.scheduleJob('*/1 * * * *',function(){
+schedule.scheduleJob('0 0 1 * *',function(){
 
-  console.log("Server will execute gmail every 12:00")
+  console.log("Server will execute gmail every 12:00 at 1st")
 
 if (auto){
 
