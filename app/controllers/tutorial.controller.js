@@ -217,6 +217,21 @@ exports.findAllPaid = (req,res)=> {
 
 };
 
+exports.findAllFerence = (req,res)=> {
+
+    const ference = req.query.ref_No;
+    
+    Profile.findAll({where: {ref_No: ference}}).then (data=> {
+        res.send(data)
+    }).catch(err=> {
+        res.status(500).send({
+            message: err.message
+        });
+        
+    });
+
+};
+
 
 exports.findAllbyIC = (req,res)=> {
 
@@ -244,18 +259,3 @@ exports.findAllbyRID = (req,res)=> {
     });
 }
 
-exports.findAllbyReference = (req,res)=> {
-
- const ref_No = req.params.ref_No;
- console.log(ref_No)
-    
-
-    Profile.findAll({where: {ref_No: ref_No}}).then(data=> {
-        res.send(data)
-    }).catch(err=> {
-        res.status(500).send({
-            message: err.message
-        });
-        
-    });
-}
