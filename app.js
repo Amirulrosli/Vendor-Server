@@ -440,7 +440,7 @@ var upload = multer({
   },
 
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|pdf|gif)$/)){
+    if (!file.originalname.match(/\.(jpg|JPG|JPEG|PNG|jpeg|png|pdf|PDF|gif)$/)){
       cb(new Error(('Please Upload JPG and PNG image')))
     }
 
@@ -543,7 +543,7 @@ var uploadPic = multer({
   },
 
   fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+    if (!file.originalname.match(/\.(jpg|JPEG|JPG|PNG|jpeg|png)$/)){
       cb(new Error(('Please Upload JPG and PNG image')))
     }
 
