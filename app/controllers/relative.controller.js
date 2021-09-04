@@ -1,5 +1,5 @@
 const db = require("../models");
-const relativeModel = require("../models/relative.model");
+const relativeModel = require("../models/Relative.model");
 const Relative = db.relative;
 const Op = db.Sequelize.Op;
 
